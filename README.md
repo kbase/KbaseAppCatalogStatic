@@ -7,7 +7,19 @@ This page is made so that Kbase Apps show up on web searches.
 Python, Flask, Jinja
 
 ## Installation
-Clone the repo on your local machine and run
+Clone the repo on your local machine and install dependency.
 ```
 $ pip install -r requirements.txt
+```
+Set the application to work with by exporting the FLASK_APP environment variable:
+```
+$ export FLASK_APP=dropdown.py
+```
+Run the application
+```
+$ flask run
+``` 
+or 
+```
+$ python -m flask run
 ```
