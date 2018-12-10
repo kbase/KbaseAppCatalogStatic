@@ -7,3 +7,7 @@ This page is made so that Kbase Apps show up on web searches.
 Python, Flask, Jinja
 
 ## Installation
+Clone the repo on your local device and run
+```
+$ pip install -r requirements.txt
+```
