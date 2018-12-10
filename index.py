@@ -42,33 +42,39 @@ Category_names = {
 
 
 def has_inactive(categories):
-  ''' Return False if an app has "inactive" or "viewers" or "importers" in categories.
-    Args: A list of categories from an app. 
-    Returns: False or nothing. '''
+    ''' Return True if an app has "inactive" or "viewers" or "importers" in categories.
+    Args: 
+        categories: A list of categories from an app. 
+    Returns: 
+        Weather or not the app has "inactive" or "viewers" or "importers" in categories.
+    '''
     for category in categories:
         if category == 'inactive' or category == "viewers" or category == "importers":
-            break
-        return False
+            return True
+    return False
 
 def remove_inactive(app_list):
-  ''' Remove apps with set categories from list of apps. 
-       Args: A list of apps
-       Returns: A new list of apps'''
+    ''' Remove apps with certain categories from list of apps. 
+    Args: 
+        app_list: A list of apps.
+    Returns: 
+        A list of apps that do not in conatin categories.
+    '''
     clean_app_list = []
     for app in app_list:
         if has_inactive(app['categories']) == False:
             clean_app_list.append(app)
-
-    print(len(app_list), len(clean_app_list))
     return clean_app_list
 
 def sort_app(organize_by, app_list):
-''' Sort apps in 
-    sort_app function takes in an array, organize_by, which is derived from drop down menu. 
-        organize_by is an array of either categories, modules, or developers. 
-        app_list is an array of all apps.
-    It returns a dictionary of {key = category/developer/module : value = app }.
-'''
+    ''' Separate apps in chosen category/developer/module from the drop down menu.
+    Args: 
+        organized_by: A string that is chosen by a user from the drop down menu.
+        app_list: A list of apps.
+    Returns:
+        A dictionary of {key = category/developer/module : value = app }.
+    '''
+
     organized_app_list = {}
     for app in app_list:
         if app.get(organize_by) is not None:
@@ -109,14 +115,11 @@ def get_apps():
         # Apps are stored in the first element of the result array.
         app_list = resp_json['result'][0]
     except ValueError as err:
-        #TODO: Find document on set ValueError
         print(err)
     
     # remove inactive apps.
     clean_app_list = remove_inactive(app_list)
 
-    # get url for all authors
-    
     # Get value from dropdown menue from url parameter
     option = request.args.get('organize_by')
     
@@ -131,64 +134,11 @@ def get_apps():
 
     elif option == "Category":
         sorted_list = sort_app('categories', clean_app_list)
-        ''' line 798 https://github.com/kbase/kbase-ui-plugin-catalog/blob/master/src/plugin/modules/widgets/kbaseCatalogBrowser.js 
-            line 82  self.categories = categoriesConfig.categories; 
-            categoriesConfig <- yaml!../data/categories.yml 
-            https://github.com/kbase/kbase-ui-plugin-catalog/blob/master/src/plugin/modules/data/categories.yml
-            Line 330 line 363 https://github.com/kbase/narrative_method_store/blob/master/src/us/kbase/narrativemethodstore/NarrativeMethodStoreServer.java
-            Line 588 https://github.com/kbase/narrative_method_store/blob/master/src/us/kbase/narrativemethodstore/db/github/LocalGitDB.java
-            Line 316
-            protected File getCategoriesDir() {
-            return new File(gitLocalPath, "categories");
-            }
-            https://github.com/kbase/narrative_method_specs/tree/develop/categories
-        also 
-            https://github.com/kbase/kbase-ui-plugin-catalog/blob/master/src/plugin/modules/catalog_util.js
-            line 81:
-        this.skipApp = function(categories) {
-            for(var i=0; i<categories.length; i++) {
-                if(categories[i]=='inactive') {
-                    return true;
-                }
-                if(categories[i]=='viewers') {
-                    return true;
-                }
-                if(categories[i]=='importers') {
-                    return true;
-                }
-            }
-            return false;
-        };
-
-        '''
-        # list_categories = requests.post(_NarrativeMethodStore_url, data=json.dumps({
-        #                                                                                 'id': 0,
-        #                                                                                 'method': 'NarrativeMethodStore.list_categories',
-        #                                                                                 'version': '1.1',
-        #                                                                                 'params': [{'load_methods': 0,
-        #                                                                                 'load_apps': 0,
-        #                                                                                 'load_types': 0,
-        #                                                                                 'tag': 'release'}]
-        #                                                                             }))
-        # print(list_categories.json())
-        # for category in sorted_list:
-        #     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', category)
-        #     category_info = requests.post(_NarrativeMethodStore_url, data=json.dumps({
-        #                                                                                 'id': 0,
-        #                                                                                 'method': 'NarrativeMethodStore.get_category',
-        #                                                                                 'version': '1.1',
-        #                                                                                 'params': [{'ids': [category]}]
-        #                                                                             }))
-        #     print(category_info.json())
-
-        #shape sorted_lisåt. need to get GetCategoryParams for each from narrative method store
+        
+        # Shape sorted_list. Get GetCategoryParams for each from narrative method store
         for category in sorted_list:
-            # Skip Active and upload (it's not used??)
             if (category != 'active') and (category != 'upload'):
                 cat_name = Category_names.get(category)
-                # in Python, if dict size changes like below during iteration, it will throw up.          
-                # sorted_list[cat_name] = sorted_list.pop(category).
-                # Work around: making a new dict. 
                 organized_list[cat_name] = sorted_list.get(category)
      
     elif option == "Module":
@@ -196,7 +146,6 @@ def get_apps():
 
 
     elif option == "Developer":
-        #TODO: shape sorted_list. need to get developer names for each from ??
         organized_list = sort_app('authors', clean_app_list)
 
     else:

@@ -1,0 +1,152 @@
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    line-height: 1.42857143;
+    margin-top: 0px;
+}
+
+h1, h2, h3, h4, h5 {
+    color: rgb(119, 119, 119);
+}
+nav {
+    background-color: rgb(248, 248, 248);
+}
+.dropdown-container {
+    width: 90vw;
+    max-width: 1024px;
+    margin: auto;
+}
+select {
+    -webkit-appearance: none; 
+    -moz-appearance: none;
+    appearance: none;       /* remove default arrow */
+    /* background-image: url(...);   /*add custom arrow */ 
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 16px;
+    border-radius: unset;
+    padding: 15px;
+    border-top-style: none;
+    border-right-style: solid;
+    border-bottom-style: none;
+    border-left-style: solid;
+    color: #777;
+    line-height: 22px;
+ }
+
+ table {
+    table-layout: fixed;
+    overflow-wrap: break-word;
+    overflow-y: auto;
+    max-height: 100vh;
+ }
+
+select:hover, select:focus, select:active{
+    background-color: #e7e7e7;
+    outline-color: #fa0;
+}
+a:link, a:visited{
+    color: #337ab7;
+    text-decoration: none;
+}
+a:hover, a:focus {
+    color: #23527c;
+}
+.sticky{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+}
+
+.organized-by {
+    width: 100%;
+    color: #fa0;
+    font-size: 1.5em;
+    font-weight: 500;
+    padding: 1em, 0, 0, 1em;
+    height: 5vh;
+    background-color: #ffffffcf;
+}
+.organized-by.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0px;
+    padding-left: 1em;
+    padding-top: 1em;
+}
+
+a.anchor-link  {
+    font-size: 0.8em;
+    color: #fa0;
+}
+.icon-img {
+    width: 40px;
+    height: 40px;
+    padding: 6px 3px 3px 8px;
+    margin-top: 0.6em;
+    float: left;
+}
+#app-organized-list-container {
+    /* margin: auto;
+    padding: 1em;*/
+    width: 90vw;
+    max-width: 1024px; 
+    font-family: inherit;
+}
+.flex-container {
+    display: flex;
+}
+.left-col{ 
+    order: 1;
+    min-width: 112px;
+}
+
+.scroll {
+    max-height: 75vh;
+    overflow-y: scroll;
+}
+.app-list-container {
+    padding: 0px;
+    order: 2;
+}
+.app-list {
+    margin-bottom: 5vh;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.app-card{
+    max-width: 45%;
+    margin: 1em;
+    padding: 1vw;
+    background-color: rgb(241, 241, 245);
+    color: #666;
+    flex-grow: 1;
+}
+.app-title,.app-title:hover {
+    width: 75%;
+    margin-left: 0.6em;
+    color: #666;
+    font-size: 1.1em;
+    text-decoration: none;
+    float: left;
+}
+.module-name:hover, .dev-link:hover {
+    text-decoration: underline;
+}
+.module-name-tooltip{
+    clear: both;
+    font-size: 0.8em;
+}
+.devs {
+    font-size: 0.7em;
+}
+.kbcb-hover {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    transition: all 0.2s ease-in-out;
+}
+
+.kbcb-hover:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    cursor: pointer;
+}

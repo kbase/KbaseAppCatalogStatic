@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Kbase App Catalog" content="KBase apps are analysis tools that you can use in KBase. Apps interoperate seamlessly to enable a range of scientific workflows (see figure below). Some of the apps were written by KBase scientists and developers; others are third-party tools that were integrated into KBase with our Software Developer Kit (SDK). The number of apps available in KBase will increase rapidly as members of the community use our SDK to integrate their analysis tools into the KBase platform.
+The KBase App Catalog lists all of the currently available apps.">
+    <title>Kbase App Catalog</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ajusa/lit@latest/dist/lit.css" />
+    <link rel="stylesheet" href={{ url_for('static', filename='style.css') }}>
+</head>
+<body>
+    <nav class="row-container row card">
+        <div class="dropdown-container">
+            <select name="organize-by" id="organizeBy-select">
+                {% for option in options %}
+                <option value="{{ option }}">{{ option }}</option>  
+                {% endfor %}
+            </select>
+        </div>  
+    </nav>
+
+    <div id="app-organized-list-container" class="c">
+        <div class="flex-container row">
+            <div class="left-col  3 col">
+                <div class="sticky">
+                    <div class="scroll">
+                        <table class="w-100">
+                            <tbody>
+                                <tr><td><a class="anchor-link" href="#">Back to top</a></td></tr>
+                            {% for item, app_list in organized_list.items() %}
+                                <tr><td> <a class="anchor-link" href="#{{ item }}">{{ item }}</a> </td></tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="more-links"><hr>Scroll</div>
+                </div>
+            </div>
+            
+            <div class="app-list-container 9 col">
+        {% for item, app_list in organized_list.items() %}
+                <div class="app-list">
+                    <div class="organized-by sticky" id="{{ item }}">{{ item }}</div>
+                {% for app in app_list %}
+                    <a href="https://narrative.kbase.us/#catalog/apps/{{ app.id }}">
+                        <div class="app-card kbcb-hover">
+                            <!-- {{ app|pprint }} -->
+                            <div class="app-card-header">
+                                {% if app.icon %}
+                                <img class="icon-img" src="https://kbase.us/services/narrative_method_store/{{ app.icon.url }}" >
+                                {% else %}
+                                <i class="far fa-question-circle"></i>
+                                <img class="icon-img" src="https://cdn3.iconfinder.com/data/icons/trico-rounded-squares/24/Rounded-Square-Question-512.png">
+                                {% endif %} 
+                                <p class="app-title"> {{ app.name }} </p>
+                            </div>
+                            <div class="module-name-tooltip">
+                                <a class="module-name" href="https://narrative.kbase.us/#catalog/modules/{{ app.module_name }}">{{ app.module_name }}</a>
+                                {% if app.subtitle != "none" %}
+                                <p>{{ app.subtitle }}</p>
+                                {% endif %}
+
+                                {% if app.tooltip is not none %}
+                                <p>Tool Tip: {{ app.tooltip }}
+                                {% endif %}
+                            </div>
+                            {% if  app.authors|length > 0 %}
+                            <div class="devs">
+                                By: 
+                                {% for developr in app.authors %}
+                                    <a class="dev-link" href = "https://narrative.kbase.us/#people/{{developr}}">{{ developr }}</a>{{ "," if not loop.last }}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div> <!--  End of class="app-list" -->
+                {% endfor %} 
+            </div> <!-- End of class="app-list-container" -->
+        </div> <!-- End of class="row" -->
+    </div> <!-- End of class="app-organized-list-container c" -->
+
+    <script>
+        let dropdown = document.querySelector('#organizeBy-select');
+        document.addEventListener('DOMContentLoaded',function() {
+            document.querySelector('select[name="organize-by"]').onchange=changeEventHandler;
+        },false);
+        
+        function changeEventHandler(event) {
+            window.location.hash = "";
+            if(!event.target.value) alert('Please Select One');
+            if(event.target.value === "All apps"){
+                window.location.href = '/';
+            }
+            else window.location.search = '?organize_by='+event.target.value;
+        }
+        let scrollDiv = document.querySelector(".scroll");
+        if( scrollDiv.scrollHeight > scrollDiv.offsetHeight ) {
+            document.querySelector(".more-links").style.visibility = "visible";
+            document.querySelector(".more-links").style.color = "#666";
+        } else {
+            document.querySelector(".more-links").style.visibility = "hidden";
+        }
+    </script>
+</body>
+</html>
