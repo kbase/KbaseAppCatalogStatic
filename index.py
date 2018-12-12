@@ -2,6 +2,7 @@ from flask import Flask, url_for, request, render_template
 import os
 import requests
 import json
+from collections import deafultdict
 
 app = Flask(__name__)
 
@@ -48,10 +49,17 @@ def has_inactive(categories):
     Returns: 
         Weather or not the app has "inactive" or "viewers" or "importers" in categories.
     '''
-    for category in categories:
-        if category == 'inactive' or category == "viewers" or category == "importers":
-            return True
-    return False
+    
+    """
+    A couple pythonic notes on this here. Nothing wrong about what you did but in python
+    you can check for items in a list by using the "in" operator
+    """
+    if 'inactive' in categories or 'viewers' in category or 'importers' in category:
+        return True
+#     for category in categories:
+#         if category == 'inactive' or category == "viewers" or category == "importers":
+#             return True
+    return False  
 
 def remove_inactive(app_list):
     ''' Remove apps with certain categories from list of apps. 
@@ -60,6 +68,11 @@ def remove_inactive(app_list):
     Returns: 
         A list of apps that do not in conatin categories.
     '''
+    # looks good!
+    # Just a Python plug, you could simplify this to one line:
+    # return [app for app in app_list if not has_inactive(app['categories])]
+    # totally up to you though
+    
     clean_app_list = []
     for app in app_list:
         if has_inactive(app['categories']) == False:
@@ -74,8 +87,13 @@ def sort_app(organize_by, app_list):
     Returns:
         A dictionary of {key = category/developer/module : value = app }.
     '''
-
-    organized_app_list = {}
+    # One handy tool in python is the defaultdict() which can make things a little easier here
+    # It uses its labmda argument as the default value for keys that it has not seen before
+    # instead of throwing an error.
+    # Again totally an aesthetic change here, same functionally
+    
+    organized_app_list = defaultdict(lambda: [])
+    # organized_app_list = {}
     for app in app_list:
         if app.get(organize_by) is not None:
             # check if it already exisits in the organized_app_list dictionary.
@@ -85,26 +103,29 @@ def sort_app(organize_by, app_list):
                 items = [items]
 
             for item in items:
-                if item not in organized_app_list:
-                    # if it is not alreay in the organized_app_list, then add category and the app associated. 
-                    organized_app_list[item] = [app]
-                elif item in organized_app_list:
-                    # if category is already exisiting in the dictionay, then add the app to the list.
-                    arr = organized_app_list.get(item)
-                    arr.append(app)
-                    organized_app_list[item] = arr
-                else:
-                    # This shouldn't happen.
-                    pass
+                organized_app_list[item].append(app)              
+#                 if item not in organized_app_list:
+#                     # if it is not alreay in the organized_app_list, then add category and the app associated. 
+#                     organized_app_list[item] = [app]
+#                 elif item in organized_app_list:
+#                     # if category is already exisiting in the dictionay, then add the app to the list.
+#                     arr = organized_app_list.get(item)
+#                     arr.append(app)
+#                     organized_app_list[item] = arr
+#                 else:
+#                     # This shouldn't happen.
+#                     pass
         else:
             # If the organized by item does not exisit in app information, then add to Uncategorized Apps list.
-            if 'Uncategorized' not in organized_app_list:
-                organized_app_list['Uncategorized'] = [app]
-            elif 'Uncategorized' in organized_app_list:
-                arr = organized_app_list.get('Uncategorized')
-                arr.append(app)
-                organized_app_list['Uncategorized'] = arr
-            pass
+            organized_app_list['Uncategorized'].append(app)
+#             if 'Uncategorized' not in organized_app_list:
+#                 organized_app_list['Uncategorized'] = [app]
+#             elif 'Uncategorized' in organized_app_list:
+#                 arr = organized_app_list.get('Uncategorized')
+#                 arr.append(app)
+#                 organized_app_list['Uncategorized'] = arr
+#             # no need to worry about pass here in python
+#             pass
     return organized_app_list
 
 @app.route('/', methods=['GET'])
