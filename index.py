@@ -2,7 +2,7 @@ from flask import Flask, url_for, request, render_template
 import os
 import requests
 import json
-from collections import deafultdict
+from collections import defaultdict
 
 app = Flask(__name__)
 
@@ -50,15 +50,8 @@ def has_inactive(categories):
         Weather or not the app has "inactive" or "viewers" or "importers" in categories.
     '''
     
-    """
-    A couple pythonic notes on this here. Nothing wrong about what you did but in python
-    you can check for items in a list by using the "in" operator
-    """
-    if 'inactive' in categories or 'viewers' in category or 'importers' in category:
+    if 'inactive' in categories or 'viewers' in categories or 'importers' in categories:
         return True
-#     for category in categories:
-#         if category == 'inactive' or category == "viewers" or category == "importers":
-#             return True
     return False  
 
 def remove_inactive(app_list):
@@ -68,16 +61,7 @@ def remove_inactive(app_list):
     Returns: 
         A list of apps that do not in conatin categories.
     '''
-    # looks good!
-    # Just a Python plug, you could simplify this to one line:
-    # return [app for app in app_list if not has_inactive(app['categories])]
-    # totally up to you though
-    
-    clean_app_list = []
-    for app in app_list:
-        if has_inactive(app['categories']) == False:
-            clean_app_list.append(app)
-    return clean_app_list
+    return [app for app in app_list if not has_inactive(app['categories'])]
 
 def sort_app(organize_by, app_list):
     ''' Separate apps in chosen category/developer/module from the drop down menu.
@@ -87,11 +71,6 @@ def sort_app(organize_by, app_list):
     Returns:
         A dictionary of {key = category/developer/module : value = app }.
     '''
-    # One handy tool in python is the defaultdict() which can make things a little easier here
-    # It uses its labmda argument as the default value for keys that it has not seen before
-    # instead of throwing an error.
-    # Again totally an aesthetic change here, same functionally
-    
     organized_app_list = defaultdict(lambda: [])
     # organized_app_list = {}
     for app in app_list:
@@ -104,28 +83,10 @@ def sort_app(organize_by, app_list):
 
             for item in items:
                 organized_app_list[item].append(app)              
-#                 if item not in organized_app_list:
-#                     # if it is not alreay in the organized_app_list, then add category and the app associated. 
-#                     organized_app_list[item] = [app]
-#                 elif item in organized_app_list:
-#                     # if category is already exisiting in the dictionay, then add the app to the list.
-#                     arr = organized_app_list.get(item)
-#                     arr.append(app)
-#                     organized_app_list[item] = arr
-#                 else:
-#                     # This shouldn't happen.
-#                     pass
         else:
             # If the organized by item does not exisit in app information, then add to Uncategorized Apps list.
             organized_app_list['Uncategorized'].append(app)
-#             if 'Uncategorized' not in organized_app_list:
-#                 organized_app_list['Uncategorized'] = [app]
-#             elif 'Uncategorized' in organized_app_list:
-#                 arr = organized_app_list.get('Uncategorized')
-#                 arr.append(app)
-#                 organized_app_list['Uncategorized'] = arr
-#             # no need to worry about pass here in python
-#             pass
+
     return organized_app_list
 
 @app.route('/', methods=['GET'])

@@ -13,7 +13,7 @@ $ pip install -r requirements.txt
 ```
 Set the application to work with by exporting the FLASK_APP environment variable:
 ```
-$ export FLASK_APP=dropdown.py
+$ export FLASK_APP=index.py
 ```
 Run the application
 ```
