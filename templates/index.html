@@ -92,10 +92,7 @@ The KBase App Catalog lists all of the currently available apps.">
         function changeEventHandler(event) {
             window.location.hash = "";
             if(!event.target.value) alert('Please Select One');
-            if(event.target.value === "All apps"){
-                window.location.href = '/';
-            }
-            else window.location.search = '?organize_by='+event.target.value;
+            window.location.search = '?organize_by='+event.target.value;
         }
         let scrollDiv = document.querySelector(".scroll");
         if( scrollDiv.scrollHeight > scrollDiv.offsetHeight ) {

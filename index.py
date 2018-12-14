@@ -72,21 +72,23 @@ def sort_app(organize_by, app_list):
         A dictionary of {key = category/developer/module : value = app }.
     '''
     organized_app_list = defaultdict(lambda: [])
-    # organized_app_list = {}
-    for app in app_list:
-        if app.get(organize_by) is not None:
-            # check if it already exisits in the organized_app_list dictionary.
-            items = app.get(organize_by)
-            # Modules are not in an array. Any option that are no in an array and a string, store in an array to avoid string iteration.
-            if isinstance(items, str):
-                items = [items]
+    if organize_by == "All apps":
+        for app in app_list:
+            # If the organized by item does not exisit in app information, then add to All Apps list.
+            organized_app_list['All apps'].append(app)
+    else:
+        for app in app_list:    
+            if app.get(organize_by) is not None:
+                # check if it already exisits in the organized_app_list dictionary.
+                items = app.get(organize_by)
+                # Modules are not in an array. Any option that are no in an array and a string, store in an array to avoid string iteration.
+                if isinstance(items, str):
+                    items = [items]
 
-            for item in items:
-                organized_app_list[item].append(app)              
-        else:
-            # If the organized by item does not exisit in app information, then add to Uncategorized Apps list.
-            organized_app_list['Uncategorized'].append(app)
-
+                for item in items:
+                    organized_app_list[item].append(app)              
+            else:
+                print("How did even happen?")
     return organized_app_list
 
 @app.route('/', methods=['GET'])
@@ -99,7 +101,7 @@ def get_apps():
     except ValueError as err:
         print(err)
     
-    # remove inactive apps.
+    # remove apps with "inactive" or "viewers" or "importers" in categories.
     clean_app_list = remove_inactive(app_list)
 
     # Get value from dropdown menue from url parameter
@@ -108,13 +110,8 @@ def get_apps():
     # Initialize organized app list.  organized_list is passed to index.html template. 
     organized_list ={}
 
-    if option == None:
-        # When the page loads and drop down menue has not been used, return all of the apps non-sorted.
-        organized_list = {
-            'All apps' : clean_app_list
-        }
-
-    elif option == "Category":
+    if option == None or option == "Category":
+        # When the page loads and drop down menue has not been used, return category-sorted.
         sorted_list = sort_app('categories', clean_app_list)
         
         # Shape sorted_list. Get GetCategoryParams for each from narrative method store
@@ -122,7 +119,10 @@ def get_apps():
             if (category != 'active') and (category != 'upload'):
                 cat_name = Category_names.get(category)
                 organized_list[cat_name] = sorted_list.get(category)
-     
+
+    elif option == "All apps":
+        organized_list = sort_app("All apps", clean_app_list)
+
     elif option == "Module":
         organized_list = sort_app('module_name', clean_app_list)
 
