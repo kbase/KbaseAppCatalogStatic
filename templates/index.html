@@ -154,12 +154,13 @@ The KBase App Catalog lists all of the currently available apps.">
             
             <div class="app-list-container 9 col">
             {% for item, app_list in organized_list.items() %}
+                <div class="secret-spice" id="{{ item }}"></div> <!-- dummy div to align app-list -->
                 <div class="app-list">
-                    <div class="organized-by sticky" id="{{ item }}">{{ item }}</div>
+                    <div class="organized-by sticky">{{ item }}</div>
                 {% for app in app_list %}
                     <a href="https://narrative.kbase.us/#catalog/apps/{{ app.id }}">
                         <div class="app-card kbcb-hover">
-                            <div class="app-card-header">
+                            <div class="app-card-header" module="{{ item }}" name="{{ app.name }}" id="{{ app.id }}">
                                 {% if app.icon %}
                                 <img class="icon-img" src="https://kbase.us/services/narrative_method_store/{{ app.icon.url }}" >
                                 {% else %}
@@ -210,6 +211,17 @@ The KBase App Catalog lists all of the currently available apps.">
         document.addEventListener("click", function(event) {
             scroll.scrollTop = 0;
         }, false);
+
+        let appHeaderClickHander = function(){
+            let  appModule= this.getAttribute("module");
+            let appName = this.getAttribute("name");
+            window.location = "http://localhost:5000/" + appModule + "/" + appName;
+            console.log( "appName:", appName, "appModule:", appModule);
+        }
+        let appCardHeaders = document.getElementsByClassName("app-card-header");
+        Array.from(appCardHeaders).forEach(function(appCard){
+            appCard.addEventListener('click', appHeaderClickHander, false);
+        })
     </script>
     <script type="text/javascript" src="http://kbase.us/wp-content/themes/kbase-wordpress-theme/bootstrap/js/bootstrap.min.js?ver=3.2.0"></script>
     <script type="text/javascript" src="http://kbase.us/wp-content/themes/kbase-wordpress-theme/js/bs-extra.js?ver=4.7.3"></script>

@@ -21,6 +21,7 @@ payload = {
 # drop down menu options 
 options = ['Organize by', 'All apps', 'Category', 'Module', 'Developer']
 
+# Ref: https://github.com/kbase/kbase-ui-plugin-catalog/blob/master/src/plugin/modules/data/categories.yml
 # Category ID/Category name map
 Category_names = {
     'annotation': 'Genome Annotation',
@@ -40,18 +41,9 @@ Category_names = {
     'upload': 'Upload Methods',
     'Uncategorized' : 'Uncategorized Apps'
 }
-# Category_order = ['Read Processing', 'Genome Assembly', 'Genome Annotation', 'Sequence Analysis', 'Comparative Genomics', 
-     
-#         - reads
-#         - assembly
-#         - annotation
-#         - sequence
-#         - comparative_genomics
-#         - metabolic_modeling
-#         - expression
-#         - communities
-#         - util
-# }
+# categorires in order
+category_order = ['Read Processing', 'Genome Assembly', 'Genome Annotation', 'Sequence Analysis', 'Comparative Genomics', 'Metabolic Modeling', 'Expression', 'Microbial Communities', 'Utilities']
+
 
 def has_inactive(categories):
     ''' Return True if an app has "inactive" or "viewers" or "importers" in categories.
@@ -99,7 +91,7 @@ def sort_app(organize_by, app_list):
                 for item in items:
                     organized_app_list[item].append(app)              
             else:
-                print("How did even happen?")
+                print("How did it even happen?")
     return organized_app_list
 
 @app.route('/', methods=['GET'])
@@ -125,11 +117,16 @@ def get_apps():
         # When the page loads and drop down menue has not been used, return category-sorted.
         sorted_list = sort_app('categories', clean_app_list)
         
-        # Shape sorted_list. Get GetCategoryParams for each from narrative method store
+        # Get correct name for each category.
+        app_list_name = {}
         for category in sorted_list:
             if (category != 'active') and (category != 'upload'):
                 cat_name = Category_names.get(category)
-                organized_list[cat_name] = sorted_list.get(category)
+                app_list_name[cat_name] = sorted_list.get(category)
+
+        # Sort list by the order in category_order list.
+        for item in category_order:
+            organized_list[item] = app_list_name.get(item)
 
     elif option == "All apps":
         organized_list = sort_app("All apps", clean_app_list)
