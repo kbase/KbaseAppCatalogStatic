@@ -4,33 +4,66 @@ body {
     line-height: 1.42857143;
     margin-top: 0px;
 }
-
+.btn {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    letter-spacing: 0;
+    text-transform: none;
+}
 h1, h2, h3, h4, h5 {
     color: rgb(119, 119, 119);
 }
 nav {
-    background-color: rgb(248, 248, 248);
+    background-color: white;
 }
-.dropdown-container {
+#app-catalog-header {
     width: 90vw;
     max-width: 1024px;
     margin: auto;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+div.dropdown-container {
+    height: 55px;
+    display: inline-flex;
+    font-size: 16px;
+    color: #777;
+    border-width: 1px;
+    border-style: none solid none solid;
+}
+div.header-container:hover, div.header-container:focus, div.header-container:active {
+    background-color: #e7e7e7;
+    outline-color: #6b844b;
+}
+div.header-container {
+    padding: 15px;
+    display: inline-flex;
+    font-size: 16px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #777;
+    border-right-style: solid;
+    border-left-style: solid;
+    border-right-width: 1px;
+    border-left-width: 1px;
+}
+.menu-item {
+    margin: 0px;
+} 
+div.header-container > a {
+    color: #777;
+}
+
 select {
     -webkit-appearance: none; 
     -moz-appearance: none;
-    appearance: none;       /* remove default arrow */
-    /* background-image: url(...);   /*add custom arrow */ 
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-size: 16px;
+    appearance: none;
     border-radius: unset;
-    padding: 15px;
+    padding: 1em;
     border-top-style: none;
-    border-right-style: solid;
+    border-right-style: none;
     border-bottom-style: none;
-    border-left-style: solid;
+    border-left-style: none;
     color: #777;
     line-height: 22px;
+    background: white;
  }
 
  table {
@@ -39,18 +72,16 @@ select {
     overflow-y: auto;
     max-height: 100vh;
  }
+ 
+ td {
+     padding: 0.5em;
+ }
 
-select:hover, select:focus, select:active{
+select:hover, select:focus, select:active {
     background-color: #e7e7e7;
-    outline-color: #fa0;
+    outline-color: #6b844b;
 }
-a:link, a:visited{
-    color: #337ab7;
-    text-decoration: none;
-}
-a:hover, a:focus {
-    color: #23527c;
-}
+
 .sticky{
     position: -webkit-sticky;
     position: sticky;
@@ -59,24 +90,34 @@ a:hover, a:focus {
 
 .organized-by {
     width: 100%;
-    color: #fa0;
+    color: #6b844b;
     font-size: 1.5em;
     font-weight: 500;
     padding: 1em, 0, 0, 1em;
     height: 5vh;
-    background-color: #ffffffcf;
+    min-height: 3em;
 }
 .organized-by.sticky {
     position: -webkit-sticky;
     position: sticky;
-    top: 0px;
+    top: 103px;
     padding-left: 1em;
     padding-top: 1em;
+    background:#ffffff9c;
 }
 
-a.anchor-link  {
+.side-nav  {
     font-size: 0.8em;
-    color: #fa0;
+    color: #6b844b;
+}
+.side-nav.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 103px;
+}
+a.anchor-link{
+    font-size: 0.8em;
+    color: #6b844b;
 }
 .icon-img {
     width: 40px;
@@ -86,8 +127,6 @@ a.anchor-link  {
     float: left;
 }
 #app-organized-list-container {
-    /* margin: auto;
-    padding: 1em;*/
     width: 90vw;
     max-width: 1024px; 
     font-family: inherit;
@@ -141,6 +180,12 @@ a.anchor-link  {
 .devs {
     font-size: 0.7em;
 }
+.kbase-main-nav .navbar-btns {
+    margin-top: 6px;
+    margin-left: 20px;
+    display: inline-block;
+    vertical-align: middle;
+}
 .kbcb-hover {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.2s ease-in-out;
@@ -148,4 +193,12 @@ a.anchor-link  {
 
 .kbcb-hover:hover {
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.kbase-main-nav {
+    margin: 0px;
+}
+.navbar-nav {
+    margin-top: 8px;
+    margin-left: 40px;
 }

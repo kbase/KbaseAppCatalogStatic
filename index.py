@@ -40,7 +40,18 @@ Category_names = {
     'upload': 'Upload Methods',
     'Uncategorized' : 'Uncategorized Apps'
 }
-
+# Category_order = ['Read Processing', 'Genome Assembly', 'Genome Annotation', 'Sequence Analysis', 'Comparative Genomics', 
+     
+#         - reads
+#         - assembly
+#         - annotation
+#         - sequence
+#         - comparative_genomics
+#         - metabolic_modeling
+#         - expression
+#         - communities
+#         - util
+# }
 
 def has_inactive(categories):
     ''' Return True if an app has "inactive" or "viewers" or "importers" in categories.
