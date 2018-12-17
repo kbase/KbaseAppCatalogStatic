@@ -119,6 +119,7 @@ def get_apps():
         
         # Get correct name for each category.
         app_list_name = {}
+
         for category in sorted_list:
             if (category != 'active') and (category != 'upload'):
                 cat_name = Category_names.get(category)
