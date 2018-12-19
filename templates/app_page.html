@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content%}
+    <div class="content">
+        <!-- TODO: change href -->
+        <div class="kbcb-back-link"><a href="http:localhost:5000"><i class="fa fa-chevron-left"></i> back to the Catalog</a></div>
+        {{ app_info }}
+        <div class="app_header">
+            <div class="app-card-header">
+                {% if app_info.icon %}
+                <img class="icon-img-l" src="https://kbase.us/services/narrative_method_store/{{ app_info.icon.url }}" >
+                {% else %}
+                <i class="far fa-question-circle"></i>
+                <img class="icon-img-l" src="https://cdn3.iconfinder.com/data/icons/trico-rounded-squares/24/Rounded-Square-Question-512.png">
+                {% endif %} 
+            </div>
+            <p class="app-title"> {{ app_info.name }} </p>
+            <p class="app-module"> {{ app_info.module }} </p>
+            {% if  app_info.authors|length > 0 %}
+            <div class="devs">
+                By: 
+                {% for developr in app_info.authors %}
+                    <a class="dev-link" href = "https://narrative.kbase.us/#people/{{developr}}">{{ developr }}</a>{{ "," if not loop.last }}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock content %}
