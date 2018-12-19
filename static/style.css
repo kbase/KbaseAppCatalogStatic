@@ -127,9 +127,14 @@ a.anchor-link{
 .icon-img {
     width: 40px;
     height: 40px;
-    padding: 6px 3px 3px 8px;
-    margin-top: 0.6em;
     float: left;
+    margin-top: 0.1em;
+    margin-bottom: 0.35em;
+}
+.icon-img-l {
+    width: 92.7px;
+    height: 92.7px;
+    margin: 20 17 17 27;
 }
 #app-organized-list-container {
     width: 90vw;
@@ -210,4 +215,13 @@ a.anchor-link{
 .navbar-nav {
     margin-top: 8px;
     margin-left: 40px;
+}
+/* app page style */
+.content{
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+div.kbcb-back-link {
+    padding: 0.4em;
 }

@@ -3,10 +3,22 @@ import os
 import requests
 import json
 from collections import defaultdict
+from .settings import ResourcePaths
+# from werkzeug.routing import SubPath
 
 app = Flask(__name__)
 
 _kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://ci.kbase.us/services')
+
+# Configure paths for online resources
+resources = ResourcePaths()
+app.config['WP_JQUERY_PATH'] = resources.wp_jquery_path
+app.config['WP_JQUERY_MIGRATE_PATH'] = resources.wp_jquery_migrate_path
+app.config['WP_THEME_PATH'] = resources.wp_theme_path
+app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/catalog')
+# app.url_map._rules = SubPath(app.config['APPLICATION_ROOT'], app.url_map._rules)
+print('*' * 80)
+print(app.config['APPLICATION_ROOT'])
 
 # Narrative Method Store URL requre rpc at the end. 
 # ref L43/44 https://github.com/kbase/narrative_method_store/blob/master/scripts/nms-listmethods.pl 
@@ -144,3 +156,27 @@ def get_apps():
     
     return render_template('index.html', options=options, organized_list=organized_list )
 
+@app.route('/apps/<app_module>/<app_name>/<tag>', methods=['GET'])
+@app.route('/apps/<app_module>/<app_name>', methods=['GET'])
+def get_app(app_module, app_name, tag="release"):
+    app_id = app_module + '/' + app_name
+    print(app_id)
+    app_page_payload = {
+        'id': 0,
+        'method': 'NarrativeMethodStore.get_method_full_info',
+        'version': '1.1',
+        'params': [{   
+                    'ids': [app_id],
+                    'tag': tag
+                }]
+    }
+    response = requests.post(_NarrativeMethodStore_url, data=json.dumps(app_page_payload))
+    try:
+        response_json = response.json()
+        # Apps are stored in the first element of the result array.
+        app_info = response_json['result'][0][0]
+
+    except ValueError as err:
+        print(err)
+
+    return render_template('app_page.html', app_info=app_info)
