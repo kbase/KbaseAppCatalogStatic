@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 {% block content%}
     <nav class="sticky">
-        <div id="app-catalog-header" class="c">
+        <div id="app-catalog-header">
             <div class="dropdown-container">
                 <select name="organize-by" id="organizeBy-select">
                     {% for option in options %}
                     <option value="{{ option }}">{{ option }}</option>  
                     {% endfor %}
                 </select>
+                <span class="caret"></span>
             </div>  
             <div class="header-container"><a class="header-href" href="#">Back to top</a></div>
         </div>

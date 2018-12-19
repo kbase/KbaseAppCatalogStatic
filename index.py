@@ -11,10 +11,10 @@ app = Flask(__name__)
 _kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://ci.kbase.us/services')
 
 # Configure paths for online resources
-resources = ResourcePaths()
-app.config['WP_JQUERY_PATH'] = resources.wp_jquery_path
-app.config['WP_JQUERY_MIGRATE_PATH'] = resources.wp_jquery_migrate_path
-app.config['WP_THEME_PATH'] = resources.wp_theme_path
+# resources = ResourcePaths()
+# app.config['WP_JQUERY_PATH'] = resources.wp_jquery_path
+# app.config['WP_JQUERY_MIGRATE_PATH'] = resources.wp_jquery_migrate_path
+# app.config['WP_THEME_PATH'] = resources.wp_theme_path
 app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/catalog')
 # app.url_map._rules = SubPath(app.config['APPLICATION_ROOT'], app.url_map._rules)
 print('*' * 80)
@@ -147,7 +147,6 @@ def get_apps():
     elif option == "Module":
         organized_list = sort_app('module_name', clean_app_list)
 
-
     elif option == "Developer":
         organized_list = sort_app('authors', clean_app_list)
 
@@ -179,4 +178,4 @@ def get_app(app_module, app_name, tag="release"):
     except ValueError as err:
         print(err)
 
-    return render_template('app_page.html', app_info=app_info)
+    return render_template('app_page.html', app=app_info)
