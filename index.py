@@ -10,11 +10,6 @@ app = Flask(__name__)
 
 _kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://ci.kbase.us/services')
 
-# Configure paths for online resources
-# resources = ResourcePaths()
-# app.config['WP_JQUERY_PATH'] = resources.wp_jquery_path
-# app.config['WP_JQUERY_MIGRATE_PATH'] = resources.wp_jquery_migrate_path
-# app.config['WP_THEME_PATH'] = resources.wp_theme_path
 app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/catalog')
 # app.url_map._rules = SubPath(app.config['APPLICATION_ROOT'], app.url_map._rules)
 print('*' * 80)
@@ -51,7 +46,7 @@ Category_names = {
     'featured_apps': 'Featured Apps',
     'active': 'Active Methods',
     'upload': 'Upload Methods',
-    'Uncategorized' : 'Uncategorized Apps'
+    'uncategorized' : 'Uncategorized Apps'
 }
 # categorires in order
 category_order = ['Read Processing', 'Genome Assembly', 'Genome Annotation', 'Sequence Analysis', 'Comparative Genomics', 'Metabolic Modeling', 'Expression', 'Microbial Communities', 'Utilities']
@@ -70,7 +65,7 @@ def has_inactive(categories):
     return False  
 
 def remove_inactive(app_list):
-    ''' Remove apps with certain categories from list of apps. 
+    ''' Remove apps with certain categories ("inactive" or "viewers" or "importers") from list of apps. 
     Args: 
         app_list: A list of apps.
     Returns: 
@@ -93,8 +88,8 @@ def sort_app(organize_by, app_list):
             organized_app_list['All apps'].append(app)
     else:
         for app in app_list:    
-            if app.get(organize_by) is not None:
-                # check if it already exisits in the organized_app_list dictionary.
+            if len(app.get(organize_by)) > 0:
+                # list of categories/developers/modules associated with the app.
                 items = app.get(organize_by)
                 # Modules are not in an array. Any option that are no in an array and a string, store in an array to avoid string iteration.
                 if isinstance(items, str):
@@ -103,7 +98,9 @@ def sort_app(organize_by, app_list):
                 for item in items:
                     organized_app_list[item].append(app)              
             else:
-                print("How did it even happen?")
+                # handling apps without Cat or Dev list.
+                organized_app_list['uncategorized'].append(app)
+
     return organized_app_list
 
 @app.route('/', methods=['GET'])
@@ -177,5 +174,5 @@ def get_app(app_module, app_name, tag="release"):
 
     except ValueError as err:
         print(err)
-
+    
     return render_template('app_page.html', app=app_info)

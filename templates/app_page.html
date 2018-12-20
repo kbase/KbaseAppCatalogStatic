@@ -3,8 +3,8 @@
 {% block content%}
     <div class="content">
         <!-- TODO: change href -->
-        <div class="kbcb-back-link"><a href="http:localhost:5000/"><i class="fa fa-chevron-left"></i> back to the Catalog</a></div>
-        <!--{{ app }}-->
+        <div class="kbcb-back-link"><a href="{{url_for('get_apps')}}"><i class="fa fa-chevron-left"></i> back to the Catalog</a></div>
+        <!-- {{ app }} -->
         <div class="app-header">
             <div class="app-header-icon">
                 {% if app.icon %}
@@ -17,7 +17,7 @@
             <div class="app-header-container">
                 <div class="app-page-title"> {{ app.name }} </div>
                 <div class="app-page-module">
-                    <a href="http://https://narrative.kbase.us/#catalog/modules/{{ app.module_name }}">{{ app.module_name }}</a>
+                    <a href="https://narrative.kbase.us/#catalog/modules/{{ app.module_name }}">{{ app.module_name }}</a>
                     <p class="app-page-version"> v.{{ app.ver }} </p>
                 </div>
                 {% if  app.authors|length > 0 %}
