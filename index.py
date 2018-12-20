@@ -8,12 +8,16 @@ app = Flask(__name__)
 
 
 
-app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/catalog')
+app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/applist')
 # app.url_map._rules = SubPath(app.config['APPLICATION_ROOT'], app.url_map._rules)
 # print('*' * 80)
 # print(app.config['APPLICATION_ROOT'])
 
 _kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://ci.kbase.us/services')
+
+if _kbase_url is None:
+    raise RuntimeError('config file is missing host address')
+
 _catalog_url = _kbase_url + '/catalog'
 # Narrative Method Store URL requre rpc at the end. 
 # ref L43/44 https://github.com/kbase/narrative_method_store/blob/master/scripts/nms-listmethods.pl 
@@ -44,7 +48,7 @@ Category_names = {
     'uncategorized' : 'Uncategorized Apps'
 }
 # categorires in order
-category_order = ['Read Processing', 'Genome Assembly', 'Genome Annotation', 'Sequence Analysis', 'Comparative Genomics', 'Metabolic Modeling', 'Expression', 'Microbial Communities', 'Utilities']
+category_order = ['Read Processing', 'Genome Assembly', 'Genome Annotation', 'Sequence Analysis', 'Comparative Genomics', 'Metabolic Modeling', 'Expression', 'Microbial Communities', 'Utilities', 'Uncategorized Apps']
 
 
 def has_inactive(categories):
@@ -83,7 +87,7 @@ def sort_app(organize_by, app_list):
             organized_app_list['All apps'].append(app)
     else:
         for app in app_list:    
-            if len(app.get(organize_by)) > 0:
+            if len(app.get(organize_by, [])) > 0:
                 # list of categories/developers/modules associated with the app.
                 items = app.get(organize_by)
                 # Modules are not in an array. Any option that are no in an array and a string, store in an array to avoid string iteration.
@@ -146,8 +150,9 @@ def get_apps():
         resp_json = resp.json()
         # Apps are stored in the first element of the result array.
         app_list = resp_json['result'][0]
-    except ValueError as err:
-        print(err)
+
+    except:
+        return render_template('error.html')
     
     # remove apps with "inactive" or "viewers" or "importers" in categories.
     clean_app_list = remove_inactive(app_list)
@@ -173,7 +178,7 @@ def get_apps():
         # Sort list by the order in category_order list.
         for item in category_order:
             organized_list[item] = app_list_name.get(item)
-
+        
     elif option == "All apps":
         organized_list = sort_app("All apps", clean_app_list)
 
@@ -188,6 +193,9 @@ def get_apps():
     
     return render_template('index.html', options=options, organized_list=organized_list )
 
+@app.route('/apps/')
+def apps():
+   pass
 
 @app.route('/apps/<app_module>/<app_name>/<tag>', methods=['GET'])
 @app.route('/apps/<app_module>/<app_name>', methods=['GET'])
@@ -208,8 +216,9 @@ def get_app(app_module, app_name, tag="release"):
         response_json = response.json()
         # App info is stored in the first element of the result array.
         app_info = response_json['result'][0][0]
-    except ValueError as err:
-        print(err)
+
+    except:
+        return render_template('error.html')
 
     git_url = get_git_url(app_module, app_name, app_info['git_commit_hash'])
 
