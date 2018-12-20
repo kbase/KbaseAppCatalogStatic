@@ -3,8 +3,6 @@ import os
 import requests
 import json
 from collections import defaultdict
-from .settings import ResourcePaths
-# from werkzeug.routing import SubPath
 
 app = Flask(__name__)
 
