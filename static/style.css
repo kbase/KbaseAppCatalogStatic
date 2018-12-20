@@ -263,6 +263,10 @@ div.kbcb-back-link {
     width: 92.7px;
     height: 92.7px;
 }
+.app-spec {
+    border: 1px solid #eee;
+    padding: 0.5em;
+}
 hr {
     margin-top: 20px;
     margin-bottom: 20px;

@@ -59,6 +59,10 @@
             <ul>
         </div> <!-- end of publication -->
         {% endif %}
-
+        <hr>
+        <div class="app-spec">
+            <p style="font-weight: bold; display: inline;">App Specification: </p><a href="{{ git_url }}">{{ git_url }}</a>
+            <p><b>Module Commit: </b> {{ app.git_commit_hash }}</p>
+        </div>
     </div> <!-- end of content -->
 {% endblock content %}

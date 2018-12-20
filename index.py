@@ -8,22 +8,19 @@ from .settings import ResourcePaths
 
 app = Flask(__name__)
 
-_kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://ci.kbase.us/services')
+
 
 app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/catalog')
 # app.url_map._rules = SubPath(app.config['APPLICATION_ROOT'], app.url_map._rules)
-print('*' * 80)
-print(app.config['APPLICATION_ROOT'])
+# print('*' * 80)
+# print(app.config['APPLICATION_ROOT'])
 
+_kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://ci.kbase.us/services')
+_catalog_url = _kbase_url + '/catalog'
 # Narrative Method Store URL requre rpc at the end. 
 # ref L43/44 https://github.com/kbase/narrative_method_store/blob/master/scripts/nms-listmethods.pl 
 _NarrativeMethodStore_url = _kbase_url + '/narrative_method_store/rpc'
-payload = {
-    'id': 0,
-    'method': 'NarrativeMethodStore.list_methods',
-    'version': '1.1',
-    'params': [{"tag":"release"}]
-}
+
 
 # drop down menu options 
 options = ['Organize by', 'All apps', 'Category', 'Module', 'Developer']
@@ -103,6 +100,47 @@ def sort_app(organize_by, app_list):
 
     return organized_app_list
 
+def get_git_url(module_name, app_name, git_commit_hash):
+    ''' Return url of git repository of the app.
+    Args: 
+        module_name: module name derived from app_id.
+        app_name: app name derived from app_id.
+        git_commit_hash: git commit hash of the app. 
+    Returns: 
+        Url of git repository.
+    '''
+
+    module_payload = {
+        'id': 0,
+        'method': 'Catalog.get_module_version',
+        'version': '1.1',
+        'params': [{   
+                        'module_name': module_name,
+                        'git_commit_hash' : git_commit_hash,
+                        'include_compilation_report': 1
+                    }]
+    }
+    
+    module_resp = requests.post(_catalog_url, data=json.dumps(module_payload))
+    try:
+        module_resp_json = module_resp.json()
+        # App info is stored in the first element of the result array.
+
+    except ValueError as err:
+        print(err)
+    
+    git_repo_url = module_resp_json['result'][0]['git_url'] + '/tree/' + git_commit_hash + '/ui/narrative/methods/' + app_name
+    
+    return git_repo_url
+
+# payload for using NarrativeMethodStore to get all apps.
+payload = {
+    'id': 0,
+    'method': 'NarrativeMethodStore.list_methods',
+    'version': '1.1',
+    'params': [{"tag":"release"}]
+}
+
 @app.route('/', methods=['GET'])
 def get_apps():
     resp = requests.post(_NarrativeMethodStore_url, data=json.dumps(payload))
@@ -152,11 +190,12 @@ def get_apps():
     
     return render_template('index.html', options=options, organized_list=organized_list )
 
+
 @app.route('/apps/<app_module>/<app_name>/<tag>', methods=['GET'])
 @app.route('/apps/<app_module>/<app_name>', methods=['GET'])
 def get_app(app_module, app_name, tag="release"):
     app_id = app_module + '/' + app_name
-    print(app_id)
+
     app_page_payload = {
         'id': 0,
         'method': 'NarrativeMethodStore.get_method_full_info',
@@ -169,10 +208,11 @@ def get_app(app_module, app_name, tag="release"):
     response = requests.post(_NarrativeMethodStore_url, data=json.dumps(app_page_payload))
     try:
         response_json = response.json()
-        # Apps are stored in the first element of the result array.
+        # App info is stored in the first element of the result array.
         app_info = response_json['result'][0][0]
-
     except ValueError as err:
         print(err)
-    
-    return render_template('app_page.html', app=app_info)
+
+    git_url = get_git_url(app_module, app_name, app_info['git_commit_hash'])
+
+    return render_template('app_page.html', app=app_info, git_url=git_url)
