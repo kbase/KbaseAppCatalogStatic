@@ -4,11 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="Kbase App Catalog" content="KBase apps are analysis tools that you can use in KBase. Apps interoperate seamlessly to enable a range of scientific workflows (see figure below). Some of the apps were written by KBase scientists and developers; others are third-party tools that were integrated into KBase with our Software Developer Kit (SDK). The number of apps available in KBase will increase rapidly as members of the community use our SDK to integrate their analysis tools into the KBase platform.
-The KBase App Catalog lists all of the currently available apps.">
-    <title>KBase App Catalog</title>
-    <!-- TODO: Get rid of this line  -->
-    <link rel="icon" href="data:,">
+    {% block content_meta %}<meta name="Kbase App Catalog" content="KBase apps are analysis tools that you can use in KBase. Apps interoperate seamlessly to enable a range of scientific workflows (see figure below). Some of the apps were written by KBase scientists and developers; others are third-party tools that were integrated into KBase with our Software Developer Kit (SDK). The number of apps available in KBase will increase rapidly as members of the community use our SDK to integrate their analysis tools into the KBase platform.
+The KBase App Catalog lists all of the currently available apps.">{% endblock %}
+    {% block title %}<title>KBase App Catalog</title>{% endblock %}
     <script type="text/javascript" src="https://kbase.us/wp-includes/js/jquery/jquery.js?ver=1.12.4"></script>
     <script type="text/javascript" src="https://kbase.us/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1"></script>
     <script type="text/javascript" src="https://kbase.us/wp-content/themes/kbase-wordpress-theme/js/src/kbaseUtils.js?ver=4.7.3"></script>
@@ -19,7 +17,7 @@ The KBase App Catalog lists all of the currently available apps.">
     <link rel="stylesheet" id="grid-css" href="https://kbase.us/wp-content/themes/kbase-wordpress-theme/css/grid.css?ver=4.7.3" type="text/css" media="all">
     <link rel="stylesheet" id="bootstrap-css" href="https://kbase.us/wp-content/themes/kbase-wordpress-theme/bootstrap/css/bootstrap.min.css?ver=4.7.3" type="text/css" media="all">
     <link rel="stylesheet" id="bootstrap-theme-css" href="https://kbase.us/wp-content/themes/kbase-wordpress-theme/bootstrap/css/bootstrap-theme.css?ver=4.7.3" type="text/css" media="all">    
-    <link rel="stylesheet" href="static/style.css">
+    {% block style %}<link rel="stylesheet" href="static/style.css">{% endblock %}
 </head>
 
 <body>

@@ -1,16 +1,18 @@
 {% extends "base.html" %}
+{% block content_meta %}<meta name="Kbase App {{ app.name }}" content="{{ app.subtitle }}">{% endblock %}
+{% block title %}<title>{{ app.name }} | KBase App </title>{% endblock %}
+{% block style %}<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">{% endblock %}
 
 {% block content%}
     <div class="content">
-        <!-- TODO: change href -->
-        <div class="kbcb-back-link"><a href="{{url_for('get_apps')}}"><i class="fa fa-chevron-left"></i> back to the Catalog</a></div>
+        <div class="kbcb-back-link"><a href="{{url_for('index')}}"><i class="fa fa-chevron-left"></i> back to the Catalog</a></div>
         <!-- {{ app }} -->
         <div class="app-header">
             <div class="app-header-icon">
                 {% if app.icon %}
                 <img class="icon-img-l" src="https://kbase.us/services/narrative_method_store/{{ app.icon.url }}" >
                 {% else %}
-                <i class="icon-img fas fa-question-square"></i>       
+                <i class="icon-img fas fa-question-circle fa-5x"></i>       
                 {% endif %} 
             </div>
             <div class="app-header-container">

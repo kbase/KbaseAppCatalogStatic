@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block content%}
     <nav class="sticky">
         <div id="app-catalog-header">
@@ -38,13 +39,13 @@
                     <div class="organized-by sticky">{{ item }}</div>
                 {% if app_list %}
                 {% for app in app_list %}
-                    <a href="{{url_for('apps')}}{{ app.id }}/release">
+                    <a href="apps/{{ app.id }}/release">
                         <div class="app-card kbcb-hover">
                             <div class="app-card-header" module="{{ item }}" name="{{ app.name }}" id="{{ app.id}}">
                                 {% if app.icon %}
                                 <img class="icon-img" src="https://kbase.us/services/narrative_method_store/{{ app.icon.url }}" >
                                 {% else %}
-                                <i class="icon-img fas fa-question-square"></i>       
+                                <i class="icon-img fas fa-question-circle fa-2x"></i>       
                                 {% endif %} 
                                 <p class="app-title"> {{ app.name }} </p>
                             </div>
