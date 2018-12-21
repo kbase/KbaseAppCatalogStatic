@@ -6,17 +6,23 @@ from collections import defaultdict
 
 app = Flask(__name__)
 
-_kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://ci.kbase.us/services')
 
+
+app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/applist')
+# app.url_map._rules = SubPath(app.config['APPLICATION_ROOT'], app.url_map._rules)
+# print('*' * 80)
+# print(app.config['APPLICATION_ROOT'])
+
+_kbase_url = os.environ.get('KBASE_ENDPOINT')
+
+if _kbase_url is None:
+    raise RuntimeError('config file is missing host address')
+
+_catalog_url = _kbase_url + '/catalog'
 # Narrative Method Store URL requre rpc at the end. 
 # ref L43/44 https://github.com/kbase/narrative_method_store/blob/master/scripts/nms-listmethods.pl 
 _NarrativeMethodStore_url = _kbase_url + '/narrative_method_store/rpc'
-payload = {
-    'id': 0,
-    'method': 'NarrativeMethodStore.list_methods',
-    'version': '1.1',
-    'params': [{"tag":"release"}]
-}
+
 
 # drop down menu options 
 options = ['Organize by', 'All apps', 'Category', 'Module', 'Developer']
@@ -39,10 +45,10 @@ Category_names = {
     'featured_apps': 'Featured Apps',
     'active': 'Active Methods',
     'upload': 'Upload Methods',
-    'Uncategorized' : 'Uncategorized Apps'
+    'uncategorized' : 'Uncategorized Apps'
 }
 # categorires in order
-category_order = ['Read Processing', 'Genome Assembly', 'Genome Annotation', 'Sequence Analysis', 'Comparative Genomics', 'Metabolic Modeling', 'Expression', 'Microbial Communities', 'Utilities']
+category_order = ['Read Processing', 'Genome Assembly', 'Genome Annotation', 'Sequence Analysis', 'Comparative Genomics', 'Metabolic Modeling', 'Expression', 'Microbial Communities', 'Utilities', 'Uncategorized Apps']
 
 
 def has_inactive(categories):
@@ -58,7 +64,7 @@ def has_inactive(categories):
     return False  
 
 def remove_inactive(app_list):
-    ''' Remove apps with certain categories from list of apps. 
+    ''' Remove apps with certain categories ("inactive" or "viewers" or "importers") from list of apps. 
     Args: 
         app_list: A list of apps.
     Returns: 
@@ -81,8 +87,8 @@ def sort_app(organize_by, app_list):
             organized_app_list['All apps'].append(app)
     else:
         for app in app_list:    
-            if app.get(organize_by) is not None:
-                # check if it already exisits in the organized_app_list dictionary.
+            if len(app.get(organize_by, [])) > 0:
+                # list of categories/developers/modules associated with the app.
                 items = app.get(organize_by)
                 # Modules are not in an array. Any option that are no in an array and a string, store in an array to avoid string iteration.
                 if isinstance(items, str):
@@ -91,8 +97,51 @@ def sort_app(organize_by, app_list):
                 for item in items:
                     organized_app_list[item].append(app)              
             else:
-                print("How did it even happen?")
+                # handling apps without Cat or Dev list.
+                organized_app_list['uncategorized'].append(app)
+
     return organized_app_list
+
+def get_git_url(module_name, app_name, git_commit_hash):
+    ''' Return url of git repository of the app.
+    Args: 
+        module_name: module name derived from app_id.
+        app_name: app name derived from app_id.
+        git_commit_hash: git commit hash of the app. 
+    Returns: 
+        Url of git repository.
+    '''
+
+    module_payload = {
+        'id': 0,
+        'method': 'Catalog.get_module_version',
+        'version': '1.1',
+        'params': [{   
+                        'module_name': module_name,
+                        'git_commit_hash' : git_commit_hash,
+                        'include_compilation_report': 1
+                    }]
+    }
+    
+    module_resp = requests.post(_catalog_url, data=json.dumps(module_payload))
+    try:
+        module_resp_json = module_resp.json()
+        # App info is stored in the first element of the result array.
+
+    except ValueError as err:
+        print(err)
+    
+    git_repo_url = module_resp_json['result'][0]['git_url'] + '/tree/' + git_commit_hash + '/ui/narrative/methods/' + app_name
+    
+    return git_repo_url
+
+# payload for using NarrativeMethodStore to get all apps.
+payload = {
+    'id': 0,
+    'method': 'NarrativeMethodStore.list_methods',
+    'version': '1.1',
+    'params': [{"tag":"release"}]
+}
 
 @app.route('/', methods=['GET'])
 def get_apps():
@@ -101,8 +150,9 @@ def get_apps():
         resp_json = resp.json()
         # Apps are stored in the first element of the result array.
         app_list = resp_json['result'][0]
-    except ValueError as err:
-        print(err)
+
+    except:
+        return render_template('error.html')
     
     # remove apps with "inactive" or "viewers" or "importers" in categories.
     clean_app_list = remove_inactive(app_list)
@@ -128,13 +178,12 @@ def get_apps():
         # Sort list by the order in category_order list.
         for item in category_order:
             organized_list[item] = app_list_name.get(item)
-
+        
     elif option == "All apps":
         organized_list = sort_app("All apps", clean_app_list)
 
     elif option == "Module":
         organized_list = sort_app('module_name', clean_app_list)
-
 
     elif option == "Developer":
         organized_list = sort_app('authors', clean_app_list)
@@ -144,3 +193,33 @@ def get_apps():
     
     return render_template('index.html', options=options, organized_list=organized_list )
 
+@app.route('/apps/')
+def apps():
+   pass
+
+@app.route('/apps/<app_module>/<app_name>/<tag>', methods=['GET'])
+@app.route('/apps/<app_module>/<app_name>', methods=['GET'])
+def get_app(app_module, app_name, tag="release"):
+    app_id = app_module + '/' + app_name
+
+    app_page_payload = {
+        'id': 0,
+        'method': 'NarrativeMethodStore.get_method_full_info',
+        'version': '1.1',
+        'params': [{   
+                    'ids': [app_id],
+                    'tag': tag
+                }]
+    }
+    response = requests.post(_NarrativeMethodStore_url, data=json.dumps(app_page_payload))
+    try:
+        response_json = response.json()
+        # App info is stored in the first element of the result array.
+        app_info = response_json['result'][0][0]
+
+    except:
+        return render_template('error.html')
+
+    git_url = get_git_url(app_module, app_name, app_info['git_commit_hash'])
+
+    return render_template('app_page.html', app=app_info, git_url=git_url)

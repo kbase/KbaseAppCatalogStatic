@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content%}
+    <div class="content">
+        <!-- TODO: change href -->
+        <div class="kbcb-back-link"><a href="{{url_for('get_apps')}}"><i class="fa fa-chevron-left"></i> back to the Catalog</a></div>
+        <!-- {{ app }} -->
+        <div class="app-header">
+            <div class="app-header-icon">
+                {% if app.icon %}
+                <img class="icon-img-l" src="https://kbase.us/services/narrative_method_store/{{ app.icon.url }}" >
+                {% else %}
+                <i class="icon-img fas fa-question-square"></i>       
+                {% endif %} 
+            </div>
+            <div class="app-header-container">
+                <div class="app-page-title"> {{ app.name }} </div>
+                <div class="app-page-module">
+                    <a href="https://narrative.kbase.us/#catalog/modules/{{ app.module_name }}">{{ app.module_name }}</a>
+                    <p class="app-page-version"> v.{{ app.ver }} </p>
+                </div>
+                {% if  app.authors|length > 0 %}
+                <div class="app-page-devs">
+                    By: 
+                    {% for developr in app.authors %}
+                    <a class="dev-link" href = "https://narrative.kbase.us/#people/{{developr}}">{{ developr }}</a>{{ "," if not loop.last }}
+                    {% endfor %}
+                </div>
+            </div> <!-- end of app-title-module -->
+            {% endif %}
+        </div> <!-- end of app-header-->
+        <div calss="app-page-subtitle">
+            {% if app.subtitle != "none" %}
+            <div class=app-subtitle>
+                <p>{{ app.subtitle }}</p>
+            </div>
+            {% endif %}
+        </div>
+        {% if app.screenshots | length > 0 %}
+        <div>
+            {% for img_url in app.screenshots %}
+            <a><img src="https://kbase.us/services/narrative_method_store/{{ img_url.url }}" width="300"></a>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% if app.description != "none" %}
+        <div class="app-description">
+        {{ app.description | safe }}
+        </div>
+        {% endif %}
+        {% if app.publications | length > 0 %}
+        <div class="publication">
+            <p>Related Publications</P>
+            <ul>
+            {% for publication in app.publications %}
+            <li>{{ publication.display_text }}, <a href="{{ publication.link }}">{{ publication.link }}</a></li> 
+            {% endfor %}
+            <ul>
+        </div> <!-- end of publication -->
+        {% endif %}
+        <hr>
+        <div class="app-spec">
+            <p style="font-weight: bold; display: inline;">App Specification: </p><a href="{{ git_url }}">{{ git_url }}</a>
+            <p><b>Module Commit: </b> {{ app.git_commit_hash }}</p>
+        </div>
+    </div> <!-- end of content -->
+{% endblock content %}
