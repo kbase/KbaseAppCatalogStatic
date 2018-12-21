@@ -7,7 +7,6 @@ from collections import defaultdict
 app = Flask(__name__)
 
 
-
 app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/applist')
 # app.url_map._rules = SubPath(app.config['APPLICATION_ROOT'], app.url_map._rules)
 # print('*' * 80)
@@ -16,7 +15,7 @@ app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/applist')
 _kbase_url = os.environ.get('KBASE_ENDPOINT')
 
 if _kbase_url is None:
-    raise RuntimeError('config file is missing host address')
+    raise RuntimeError('Missing host address')
 
 _catalog_url = _kbase_url + '/catalog'
 # Narrative Method Store URL requre rpc at the end. 
@@ -193,9 +192,9 @@ def get_apps():
     
     return render_template('index.html', options=options, organized_list=organized_list )
 
-@app.route('/apps/')
-def apps():
-   pass
+@app.route('/')
+def index():
+    return 'index'
 
 @app.route('/apps/<app_module>/<app_name>/<tag>', methods=['GET'])
 @app.route('/apps/<app_module>/<app_name>', methods=['GET'])

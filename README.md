@@ -23,3 +23,7 @@ or
 ```
 $ python -m flask run
 ```
+
+## Environment Variables
+KBASE_ENDPOINT: https://kbase.us/services
+ROOT_PREFIX: /applist

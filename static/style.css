@@ -248,6 +248,8 @@ div.kbcb-back-link {
 }
 .app-header-icon {
     display: inline-table;
+    width: 93px;
+    height: 93px;
 }
 .app-page-devs {
     font-size: 1em;
