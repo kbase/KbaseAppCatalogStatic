@@ -13,7 +13,7 @@ app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/applist')
 # print('*' * 80)
 # print(app.config['APPLICATION_ROOT'])
 
-_kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://ci.kbase.us/services')
+_kbase_url = os.environ.get('KBASE_ENDPOINT')
 
 if _kbase_url is None:
     raise RuntimeError('config file is missing host address')

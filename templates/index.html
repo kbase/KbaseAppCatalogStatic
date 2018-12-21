@@ -36,7 +36,7 @@
                 <div class="secret-spice" id="{{ item }}"></div> <!-- dummy div to align app-list -->
                 <div class="app-list">
                     <div class="organized-by sticky">{{ item }}</div>
-                {% if app_list %} <!-- if the list is empty, it's not iterable. -->
+                {% if app_list %}
                 {% for app in app_list %}
                     <a href="{{url_for('apps')}}{{ app.id }}/release">
                         <div class="app-card kbcb-hover">
