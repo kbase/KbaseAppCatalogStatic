@@ -8,9 +8,6 @@ app = Flask(__name__)
 
 
 app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/applist')
-# app.url_map._rules = SubPath(app.config['APPLICATION_ROOT'], app.url_map._rules)
-# print('*' * 80)
-# print(app.config['APPLICATION_ROOT'])
 
 _kbase_url = os.environ.get('KBASE_ENDPOINT')
 
