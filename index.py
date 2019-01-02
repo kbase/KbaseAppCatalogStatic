@@ -3,14 +3,15 @@ import os
 import requests
 import json
 from collections import defaultdict
+from werkzeug.wsgi import DispatcherMiddleware
 
 app = Flask(__name__)
 
-
 app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/applist')
-# app.url_map._rules = SubPath(app.config['APPLICATION_ROOT'], app.url_map._rules)
-# print('*' * 80)
-# print(app.config['APPLICATION_ROOT'])
+app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
+    app.config['APPLICATION_ROOT']: app
+})
+
 
 _kbase_url = os.environ.get('KBASE_ENDPOINT')
 
