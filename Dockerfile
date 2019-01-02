@@ -1,5 +1,5 @@
 
-FROM kbase/kb_python:python3
+FROM python:3.7-slim
 
 # Set the working directory to /app
 WORKDIR /app
@@ -13,8 +13,5 @@ COPY . /app
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
-
-# Define environment variable
-ENV KB_DEPLOYMENT_CONFIG=/kb/module/deploy.cfg
 
 CMD ["gunicorn", "-e", "SCRIPT_NAME=/applist", "-b", "0.0.0.0:5000", "index:app"]
