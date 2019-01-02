@@ -13,7 +13,7 @@ app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
 })
 
 
-_kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://kbase.us/services')
+_kbase_url = os.environ.get('KBASE_ENDPOINT')
 
 if _kbase_url is None:
     raise RuntimeError('Missing host address')
