@@ -16,6 +16,7 @@ div.navbar.navbar-default {
     margin-bottom: 0px;
     position: sticky;
     top: 0px;
+    z-index: 2;
 }
 nav {
     margin-top: 0px;
@@ -98,7 +99,7 @@ select:hover, select:focus, select:active {
 }
 
 .organized-by {
-    z-index: -1;
+    z-index: 0;
     width: 100%;
     color: #6b844b;
     font-size: 1.5em;
@@ -118,7 +119,6 @@ select:hover, select:focus, select:active {
 .side-nav  {
     font-size: 0.8em;
     color: #6b844b;
-    z-index: -2;
 }
 .side-nav.sticky {
     position: -webkit-sticky;
@@ -170,7 +170,6 @@ a.anchor-link{
     justify-content: flex-start;
 }
 .app-card{
-    z-index: -2;
     max-width: 45%;
     margin: 1em;
     padding: 1vw;

@@ -59,5 +59,10 @@
             </div> <!-- End of class="app-list-container" -->
         </div> <!-- End of class="row" -->
     </div> <!-- End of class="app-organized-list-container c" -->
-
+    <script>
+        let scroll = document.querySelector(".scroll");
+        document.addEventListener("click", function(event) {
+            scroll.scrollTop = 0;
+        }, false);
+    </script>
 {% endblock content %}  
