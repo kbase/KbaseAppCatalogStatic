@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content_meta %}<meta name="Kbase App {{ app.name }}" content="{{ app.subtitle }}">{% endblock %}
 {% block title %}<title>{{ app.name }} | KBase App </title>{% endblock %}
-{% block style %}<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">{% endblock %}
+{% block style %}<link rel="stylesheet" href="{{url_for('apps')}}{{ url_for('static', filename='style.css') }}">{% endblock %}
 
 {% block content%}
     <div class="content">

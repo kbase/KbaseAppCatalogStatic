@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request, render_template
+from flask import Flask, url_for, request, render_template, Blueprint
 import os
 import requests
 import json
@@ -8,11 +8,14 @@ app = Flask(__name__)
 
 
 app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/applist')
+# app.register_blueprint(app_page, url_prefix='/apps')
+
 # app.url_map._rules = SubPath(app.config['APPLICATION_ROOT'], app.url_map._rules)
 # print('*' * 80)
 # print(app.config['APPLICATION_ROOT'])
 
-_kbase_url = os.environ.get('KBASE_ENDPOINT')
+
+_kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://kbase.us/services')
 
 if _kbase_url is None:
     raise RuntimeError('Missing host address')
@@ -195,6 +198,10 @@ def get_apps():
 @app.route('/')
 def index():
     return 'index'
+
+@app.route('/applist')
+def apps():
+    return 'apps'
 
 @app.route('/apps/<app_module>/<app_name>/<tag>', methods=['GET'])
 @app.route('/apps/<app_module>/<app_name>', methods=['GET'])
