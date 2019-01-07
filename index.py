@@ -3,19 +3,21 @@ import os
 import requests
 import json
 from collections import defaultdict
+from werkzeug.wsgi import DispatcherMiddleware
 
 app = Flask(__name__)
 
-
 app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/applist')
-# app.register_blueprint(app_page, url_prefix='/apps')
-
-# app.url_map._rules = SubPath(app.config['APPLICATION_ROOT'], app.url_map._rules)
-# print('*' * 80)
-# print(app.config['APPLICATION_ROOT'])
-
 
 _kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://kbase.us/services')
+
+app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
+    app.config['APPLICATION_ROOT']: app
+})
+
+
+_kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://ci.kbase.us/services')
+>>>>>>> dbeb213d67b92fe13ec2fac8125fdd21141bad10
 
 if _kbase_url is None:
     raise RuntimeError('Missing host address')
