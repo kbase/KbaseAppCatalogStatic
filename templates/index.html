@@ -1,19 +1,6 @@
 {% extends "base.html" %}
 
 {% block content%}
-    <nav class="sticky">
-        <div id="app-catalog-header">
-            <div class="dropdown-container">
-                <select name="organize-by" id="organizeBy-select">
-                    {% for option in options %}
-                    <option value="{{ option }}">{{ option }}</option>  
-                    {% endfor %}
-                </select>
-                <span class="caret"></span>
-            </div>  
-            <div class="header-container"><a class="header-href" href="#">Back to top</a></div>
-        </div>
-    </nav>
 
     <div id="app-organized-list-container" class="c">
         <div class="row">
@@ -73,20 +60,4 @@
         </div> <!-- End of class="row" -->
     </div> <!-- End of class="app-organized-list-container c" -->
 
-    <script>
-        let dropdown = document.querySelector('#organizeBy-select');
-        document.addEventListener('DOMContentLoaded',function() {
-            document.querySelector('select[name="organize-by"]').onchange=changeEventHandler;
-        },false);
-        
-        function changeEventHandler(event) {
-            window.location.hash = "";
-            if(!event.target.value) alert('Please Select One');
-            window.location.search = '?organize_by='+event.target.value;
-        }
-        let scroll = document.querySelector(".scroll");
-        document.addEventListener("click", function(event) {
-            scroll.scrollTop = 0;
-        }, false);
-    </script>
 {% endblock content %}  

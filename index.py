@@ -9,15 +9,12 @@ app = Flask(__name__)
 
 app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/applist')
 
-_kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://kbase.us/services')
-
 app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
     app.config['APPLICATION_ROOT']: app
 })
 
+_kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://kbase.us/services')
 
-_kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://ci.kbase.us/services')
->>>>>>> dbeb213d67b92fe13ec2fac8125fdd21141bad10
 
 if _kbase_url is None:
     raise RuntimeError('Missing host address')
@@ -27,9 +24,6 @@ _catalog_url = _kbase_url + '/catalog'
 # ref L43/44 https://github.com/kbase/narrative_method_store/blob/master/scripts/nms-listmethods.pl 
 _NarrativeMethodStore_url = _kbase_url + '/narrative_method_store/rpc'
 
-
-# drop down menu options 
-options = ['Organize by', 'All apps', 'Category', 'Module', 'Developer']
 
 # Ref: https://github.com/kbase/kbase-ui-plugin-catalog/blob/master/src/plugin/modules/data/categories.yml
 # Category ID/Category name map
@@ -53,7 +47,6 @@ Category_names = {
 }
 # categorires in order
 category_order = ['Read Processing', 'Genome Assembly', 'Genome Annotation', 'Sequence Analysis', 'Comparative Genomics', 'Metabolic Modeling', 'Expression', 'Microbial Communities', 'Utilities', 'Uncategorized Apps']
-
 
 def has_inactive(categories):
     ''' Return True if an app has "inactive" or "viewers" or "importers" in categories.
@@ -160,42 +153,26 @@ def get_apps():
     
     # remove apps with "inactive" or "viewers" or "importers" in categories.
     clean_app_list = remove_inactive(app_list)
-
-    # Get value from dropdown menue from url parameter
-    option = request.args.get('organize_by')
     
     # Initialize organized app list.  organized_list is passed to index.html template. 
     organized_list ={}
 
-    if option == None or option == "Category":
-        # When the page loads and drop down menue has not been used, return category-sorted.
-        sorted_list = sort_app('categories', clean_app_list)
+    # When the page loads and drop down menue has not been used, return category-sorted.
+    sorted_list = sort_app('categories', clean_app_list)
         
-        # Get correct name for each category.
-        app_list_name = {}
+    # Get correct name for each category.
+    app_list_name = {}
 
-        for category in sorted_list:
-            if (category != 'active') and (category != 'upload'):
-                cat_name = Category_names.get(category)
-                app_list_name[cat_name] = sorted_list.get(category)
+    for category in sorted_list:
+        if (category != 'active') and (category != 'upload'):
+            cat_name = Category_names.get(category)
+            app_list_name[cat_name] = sorted_list.get(category)
 
-        # Sort list by the order in category_order list.
-        for item in category_order:
-            organized_list[item] = app_list_name.get(item)
+    # Sort list by the order in category_order list.
+    for item in category_order:
+        organized_list[item] = app_list_name.get(item)
         
-    elif option == "All apps":
-        organized_list = sort_app("All apps", clean_app_list)
-
-    elif option == "Module":
-        organized_list = sort_app('module_name', clean_app_list)
-
-    elif option == "Developer":
-        organized_list = sort_app('authors', clean_app_list)
-
-    else:
-        print("this shouldn't happen!")
-    
-    return render_template('index.html', options=options, organized_list=organized_list )
+    return render_template('index.html', organized_list=organized_list )
 
 @app.route('/')
 def index():
