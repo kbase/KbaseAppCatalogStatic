@@ -207,4 +207,4 @@ def get_app(app_module, app_name, tag="release"):
 
     git_url = get_git_url(app_module, app_name, app_info['git_commit_hash'])
 
-    return render_template('app_page.html', app=app_info, git_url=git_url)
+    return render_template('app_page.html', app_id=app_id, app=app_info, git_url=git_url)

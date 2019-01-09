@@ -15,7 +15,7 @@
                 <i class="icon-img fas fa-question-circle fa-5x"></i>       
                 {% endif %} 
             </div>
-            <div class="app-header-container">
+            <div class="app-info-container">
                 <div class="app-page-title"> {{ app.name }} </div>
                 <div class="app-page-module">
                     <a href="https://narrative.kbase.us/#catalog/modules/{{ app.module_name }}">{{ app.module_name }}</a>
@@ -28,8 +28,10 @@
                     <a class="dev-link" href = "https://narrative.kbase.us/#people/{{developr}}">{{ developr }}</a>{{ "," if not loop.last }}
                     {% endfor %}
                 </div>
-            </div> <!-- end of app-title-module -->
-            {% endif %}
+                {% endif %}
+            </div> <!-- end of app-info-container -->
+            <!-- TODO:AKIYO change cs.kbase.us to kbase.us -->
+            <div class="launch-narrative-btn"><a class="btn" type="button" target="_blank" href="https://ci.kbase.us#narrativemanager/new?app={{app_id}}"><i class="fas fa-rocket"></i>  Launch Narrative</a></div>
         </div> <!-- end of app-header-->
         <div calss="app-page-subtitle">
             {% if app.subtitle != "none" %}

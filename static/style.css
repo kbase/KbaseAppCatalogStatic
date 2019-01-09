@@ -237,7 +237,7 @@ div.kbcb-back-link {
     padding: 0 1em 1em 1.5em;
     color: #666;
 }
-.app-header-container {
+.app-info-container {
     padding-left: 1em;
     display: inline-table;
 }
@@ -256,6 +256,7 @@ div.kbcb-back-link {
 }
 .app-page-devs {
     font-size: 1em;
+    display: inline;
 }
 .app-page-version {
     display: inline;
@@ -263,6 +264,9 @@ div.kbcb-back-link {
 .app-page-subtitle {
     padding: 1.5em 2em 0em 2em;
     font-size: 1.2em;
+}
+.launch-narrative-btn {
+    float: right;
 }
 .icon-img-l {
     width: 92.7px;
