@@ -9,20 +9,17 @@ app = Flask(__name__)
 
 app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/applist')
 
+conf = dict()
+conf['KBASE_ENDPOINT'] = os.environ.get('KBASE_ENDPOINT')
+conf['DASHBOARD_ENDPOINT'] = os.environ.get('DASHBOARD_ENDPOINT') 
+
+
 app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
     app.config['APPLICATION_ROOT']: app
 })
 
-_kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://kbase.us/services')
-
-
-if _kbase_url is None:
+if conf['KBASE_ENDPOINT'] is None:
     raise RuntimeError('Missing host address')
-
-_catalog_url = _kbase_url + '/catalog'
-# Narrative Method Store URL requre rpc at the end. 
-# ref L43/44 https://github.com/kbase/narrative_method_store/blob/master/scripts/nms-listmethods.pl 
-_NarrativeMethodStore_url = _kbase_url + '/narrative_method_store/rpc'
 
 
 # Ref: https://github.com/kbase/kbase-ui-plugin-catalog/blob/master/src/plugin/modules/data/categories.yml
@@ -108,7 +105,6 @@ def get_git_url(module_name, app_name, git_commit_hash):
     Returns: 
         Url of git repository.
     '''
-
     module_payload = {
         'id': 0,
         'method': 'Catalog.get_module_version',
@@ -120,7 +116,7 @@ def get_git_url(module_name, app_name, git_commit_hash):
                     }]
     }
     
-    module_resp = requests.post(_catalog_url, data=json.dumps(module_payload))
+    module_resp = requests.post(conf['KBASE_ENDPOINT'] + '/catalog', data=json.dumps(module_payload))
     try:
         module_resp_json = module_resp.json()
         # App info is stored in the first element of the result array.
@@ -131,6 +127,10 @@ def get_git_url(module_name, app_name, git_commit_hash):
     git_repo_url = module_resp_json['result'][0]['git_url'] + '/tree/' + git_commit_hash + '/ui/narrative/methods/' + app_name
     
     return git_repo_url
+
+# Narrative Method Store URL requre rpc at the end. 
+# ref L43/44 https://github.com/kbase/narrative_method_store/blob/master/scripts/nms-listmethods.pl 
+_NarrativeMethodStore_url = conf['KBASE_ENDPOINT'] + '/narrative_method_store/rpc'
 
 # payload for using NarrativeMethodStore to get all apps.
 payload = {
@@ -172,7 +172,7 @@ def get_apps():
     for item in category_order:
         organized_list[item] = app_list_name.get(item)
         
-    return render_template('index.html', organized_list=organized_list )
+    return render_template('index.html', conf=conf, organized_list=organized_list )
 
 @app.route('/')
 def index():
@@ -206,5 +206,5 @@ def get_app(app_module, app_name, tag="release"):
         return render_template('error.html')
 
     git_url = get_git_url(app_module, app_name, app_info['git_commit_hash'])
-
-    return render_template('app_page.html', app_id=app_id, app=app_info, git_url=git_url)
+    
+    return render_template('app_page.html', conf=conf, app_id=app_id, app=app_info, git_url=git_url)

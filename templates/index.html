@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content%}
-
+    
     <div id="app-organized-list-container" class="c">
         <div class="row">
         <div class="flex-container">
@@ -30,14 +30,14 @@
                         <div class="app-card kbcb-hover">
                             <div class="app-card-header" module="{{ item }}" name="{{ app.name }}" id="{{ app.id}}">
                                 {% if app.icon %}
-                                <img class="icon-img" src="https://kbase.us/services/narrative_method_store/{{ app.icon.url }}" >
+                                <img class="icon-img" src="{{ conf.KBASE_ENDPOINT }}/narrative_method_store/{{ app.icon.url }}" >
                                 {% else %}
                                 <i class="icon-img fas fa-question-circle fa-2x"></i>       
                                 {% endif %} 
                                 <p class="app-title"> {{ app.name }} </p>
                             </div>
                             <div class="module-name-tooltip">
-                                <a class="module-name" href="https://narrative.kbase.us/#catalog/modules/{{ app.module_name }}">{{ app.module_name }}</a>
+                                <a class="module-name" href="{{ conf.DASHBOARD_ENDPOINT }}/#catalog/modules/{{ app.module_name }}">{{ app.module_name }}</a>
                                 {% if app.subtitle != "none" %}
                                 <p>{{ app.subtitle }}</p>
                                 {% endif %}
@@ -46,7 +46,7 @@
                             <div class="devs">
                                 By: 
                                 {% for developr in app.authors %}
-                                    <a class="dev-link" href = "https://narrative.kbase.us/#people/{{developr}}">{{ developr }}</a>{{ "," if not loop.last }}
+                                    <a class="dev-link" href = "{{ conf.DASHBOARD_ENDPOINT }}/#people/{{developr}}">{{ developr }}</a>{{ "," if not loop.last }}
                                 {% endfor %}
                             </div>
                             {% endif %}
