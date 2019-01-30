@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="version" content="0.0.1">
-    <meta name="revised" content="2019 Jan 02">
+    <meta name="version" content="0.0.2">
+    <meta name="revised" content="2019 Jan 08">
     {% block content_meta %}<meta name="Kbase App Catalog" content="KBase apps are analysis tools that you can use in KBase. Apps interoperate seamlessly to enable a range of scientific workflows (see figure below). Some of the apps were written by KBase scientists and developers; others are third-party tools that were integrated into KBase with our Software Developer Kit (SDK). The number of apps available in KBase will increase rapidly as members of the community use our SDK to integrate their analysis tools into the KBase platform.
 The KBase App Catalog lists all of the currently available apps.">{% endblock %}
     {% block title %}<title>KBase App Catalog</title>{% endblock %}
@@ -23,6 +23,18 @@ The KBase App Catalog lists all of the currently available apps.">{% endblock %}
 </head>
 
 <body>
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-38443357-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-38443357-1', {
+            'linker': {
+                'domains': ['narrative.kbase.us']
+            }
+        });
+    </script><!-- End of Global Site Tag (gtag.js) - Google Analytics -->
     <div class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
