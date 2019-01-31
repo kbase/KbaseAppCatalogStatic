@@ -26,4 +26,24 @@ $ python -m flask run
 
 ## Environment Variables
 KBASE_ENDPOINT: https://kbase.us/services
+
+DASHBOARD_ENDPOINT: https://narrative.kbase.us
+
 ROOT_PREFIX: /applist
+
+## Docker Image build and run
+- export environment variables
+
+```
+export KBASE_ENDPOINT= https://kbase.us/services
+export DASHBOARD_ENDPOINT=https://narrative.kbase.us
+export ROOT_PREFIX=/applist
+```
+- build docker image 
+```
+docker build . -t kbase-catalog kbase-catalog
+```
+- run docker image using port 5000
+```
+docker run -e KBASE_ENDPOINT -e DASHBOARD_ENDPOINT -e ROOT_PREFIX -p 5000:5000 kbase-catalog
+```

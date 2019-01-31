@@ -7,7 +7,7 @@ from werkzeug.wsgi import DispatcherMiddleware
 
 app = Flask(__name__)
 
-app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/applist')
+app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX')
 
 conf = dict()
 conf['KBASE_ENDPOINT'] = os.environ.get('KBASE_ENDPOINT')
