@@ -31,6 +31,8 @@ DASHBOARD_ENDPOINT: https://narrative.kbase.us
 
 ROOT_PREFIX: /applist
 
+GA_TRACKING_ID: Google Analytics Tracking ID
+
 ## Docker Image build and run
 - export environment variables
 

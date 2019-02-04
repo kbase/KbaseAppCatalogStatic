@@ -12,7 +12,7 @@ app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX')
 conf = dict()
 conf['KBASE_ENDPOINT'] = os.environ.get('KBASE_ENDPOINT')
 conf['DASHBOARD_ENDPOINT'] = os.environ.get('DASHBOARD_ENDPOINT') 
-
+conf['GA_TRACKING_ID'] = os.environ.get('GA_TRACKING_ID')
 
 app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
     app.config['APPLICATION_ROOT']: app
