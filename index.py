@@ -7,20 +7,19 @@ from werkzeug.wsgi import DispatcherMiddleware
 
 app = Flask(__name__)
 
-app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/applist')
+app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/')
 
 conf = dict()
 conf['KBASE_ENDPOINT'] = os.environ.get('KBASE_ENDPOINT')
 conf['DASHBOARD_ENDPOINT'] = os.environ.get('DASHBOARD_ENDPOINT') 
+conf['GA_TRACKING_ID'] = os.environ.get('GA_TRACKING_ID')
 
+assert os.environ.get('DASHBOARD_ENDPOINT', '').strip(), "DASHBOARD_ENDPOINT env var is required."
+assert os.environ.get('KBASE_ENDPOINT', '').strip(), "KBASE_ENDPOINT env var is required."
 
 app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
     app.config['APPLICATION_ROOT']: app
 })
-
-if conf['KBASE_ENDPOINT'] is None:
-    raise RuntimeError('Missing host address')
-
 
 # Ref: https://github.com/kbase/kbase-ui-plugin-catalog/blob/master/src/plugin/modules/data/categories.yml
 # Category ID/Category name map
