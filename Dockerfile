@@ -35,4 +35,4 @@ COPY . /app
 EXPOSE 5000
 
 ENTRYPOINT [ "/usr/local/bin/dockerize" ]
-CMD [ "sh", "scripts/start_server.sh"]
+CMD [ "sh", "-x", "scripts/start_server.sh"]
