@@ -6,7 +6,7 @@ workers=${WORKERS:-$calc_workers}
 
 gunicorn \
     --worker-class gevent \
-    --timeout 1800 \ 
+    --timeout 1800 \
     --workers $workers \
     --bind :5000 \
     ${DEVELOPMENT:+"--reload"} \
