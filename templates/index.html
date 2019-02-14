@@ -1,20 +1,7 @@
 {% extends "base.html" %}
 
 {% block content%}
-    <nav class="sticky">
-        <div id="app-catalog-header">
-            <div class="dropdown-container">
-                <select name="organize-by" id="organizeBy-select">
-                    {% for option in options %}
-                    <option value="{{ option }}">{{ option }}</option>  
-                    {% endfor %}
-                </select>
-                <span class="caret"></span>
-            </div>  
-            <div class="header-container"><a class="header-href" href="#">Back to top</a></div>
-        </div>
-    </nav>
-
+    
     <div id="app-organized-list-container" class="c">
         <div class="row">
         <div class="flex-container">
@@ -43,14 +30,14 @@
                         <div class="app-card kbcb-hover">
                             <div class="app-card-header" module="{{ item }}" name="{{ app.name }}" id="{{ app.id}}">
                                 {% if app.icon %}
-                                <img class="icon-img" src="https://kbase.us/services/narrative_method_store/{{ app.icon.url }}" >
+                                <img class="icon-img" src="{{ conf.KBASE_ENDPOINT }}/narrative_method_store/{{ app.icon.url }}" >
                                 {% else %}
                                 <i class="icon-img fas fa-question-circle fa-2x"></i>       
                                 {% endif %} 
                                 <p class="app-title"> {{ app.name }} </p>
                             </div>
                             <div class="module-name-tooltip">
-                                <a class="module-name" href="https://narrative.kbase.us/#catalog/modules/{{ app.module_name }}">{{ app.module_name }}</a>
+                                <a class="module-name" href="{{ conf.DASHBOARD_ENDPOINT }}/#catalog/modules/{{ app.module_name }}">{{ app.module_name }}</a>
                                 {% if app.subtitle != "none" %}
                                 <p>{{ app.subtitle }}</p>
                                 {% endif %}
@@ -59,7 +46,7 @@
                             <div class="devs">
                                 By: 
                                 {% for developr in app.authors %}
-                                    <a class="dev-link" href = "https://narrative.kbase.us/#people/{{developr}}">{{ developr }}</a>{{ "," if not loop.last }}
+                                    <a class="dev-link" href = "{{ conf.DASHBOARD_ENDPOINT }}/#people/{{developr}}">{{ developr }}</a>{{ "," if not loop.last }}
                                 {% endfor %}
                             </div>
                             {% endif %}
@@ -72,18 +59,7 @@
             </div> <!-- End of class="app-list-container" -->
         </div> <!-- End of class="row" -->
     </div> <!-- End of class="app-organized-list-container c" -->
-
     <script>
-        let dropdown = document.querySelector('#organizeBy-select');
-        document.addEventListener('DOMContentLoaded',function() {
-            document.querySelector('select[name="organize-by"]').onchange=changeEventHandler;
-        },false);
-        
-        function changeEventHandler(event) {
-            window.location.hash = "";
-            if(!event.target.value) alert('Please Select One');
-            window.location.search = '?organize_by='+event.target.value;
-        }
         let scroll = document.querySelector(".scroll");
         document.addEventListener("click", function(event) {
             scroll.scrollTop = 0;

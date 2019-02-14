@@ -1,4 +1,4 @@
-from flask import Flask, url_for, request, render_template
+from flask import Flask, url_for, request, render_template, Blueprint
 import os
 import requests
 import json
@@ -7,25 +7,19 @@ from werkzeug.wsgi import DispatcherMiddleware
 
 app = Flask(__name__)
 
-app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/applist')
+app.config['APPLICATION_ROOT'] = os.environ.get('ROOT_PREFIX', '/')
+
+conf = dict()
+conf['KBASE_ENDPOINT'] = os.environ.get('KBASE_ENDPOINT')
+conf['DASHBOARD_ENDPOINT'] = os.environ.get('DASHBOARD_ENDPOINT') 
+conf['GA_TRACKING_ID'] = os.environ.get('GA_TRACKING_ID')
+
+assert os.environ.get('DASHBOARD_ENDPOINT', '').strip(), "DASHBOARD_ENDPOINT env var is required."
+assert os.environ.get('KBASE_ENDPOINT', '').strip(), "KBASE_ENDPOINT env var is required."
+
 app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
     app.config['APPLICATION_ROOT']: app
 })
-
-
-_kbase_url = os.environ.get('KBASE_ENDPOINT', 'https://ci.kbase.us/services')
-
-if _kbase_url is None:
-    raise RuntimeError('Missing host address')
-
-_catalog_url = _kbase_url + '/catalog'
-# Narrative Method Store URL requre rpc at the end. 
-# ref L43/44 https://github.com/kbase/narrative_method_store/blob/master/scripts/nms-listmethods.pl 
-_NarrativeMethodStore_url = _kbase_url + '/narrative_method_store/rpc'
-
-
-# drop down menu options 
-options = ['Organize by', 'All apps', 'Category', 'Module', 'Developer']
 
 # Ref: https://github.com/kbase/kbase-ui-plugin-catalog/blob/master/src/plugin/modules/data/categories.yml
 # Category ID/Category name map
@@ -49,7 +43,6 @@ Category_names = {
 }
 # categorires in order
 category_order = ['Read Processing', 'Genome Assembly', 'Genome Annotation', 'Sequence Analysis', 'Comparative Genomics', 'Metabolic Modeling', 'Expression', 'Microbial Communities', 'Utilities', 'Uncategorized Apps']
-
 
 def has_inactive(categories):
     ''' Return True if an app has "inactive" or "viewers" or "importers" in categories.
@@ -111,7 +104,6 @@ def get_git_url(module_name, app_name, git_commit_hash):
     Returns: 
         Url of git repository.
     '''
-
     module_payload = {
         'id': 0,
         'method': 'Catalog.get_module_version',
@@ -123,7 +115,7 @@ def get_git_url(module_name, app_name, git_commit_hash):
                     }]
     }
     
-    module_resp = requests.post(_catalog_url, data=json.dumps(module_payload))
+    module_resp = requests.post(conf['KBASE_ENDPOINT'] + '/catalog', data=json.dumps(module_payload))
     try:
         module_resp_json = module_resp.json()
         # App info is stored in the first element of the result array.
@@ -134,6 +126,10 @@ def get_git_url(module_name, app_name, git_commit_hash):
     git_repo_url = module_resp_json['result'][0]['git_url'] + '/tree/' + git_commit_hash + '/ui/narrative/methods/' + app_name
     
     return git_repo_url
+
+# Narrative Method Store URL requre rpc at the end. 
+# ref L43/44 https://github.com/kbase/narrative_method_store/blob/master/scripts/nms-listmethods.pl 
+_NarrativeMethodStore_url = conf['KBASE_ENDPOINT'] + '/narrative_method_store/rpc'
 
 # payload for using NarrativeMethodStore to get all apps.
 payload = {
@@ -156,46 +152,34 @@ def get_apps():
     
     # remove apps with "inactive" or "viewers" or "importers" in categories.
     clean_app_list = remove_inactive(app_list)
-
-    # Get value from dropdown menue from url parameter
-    option = request.args.get('organize_by')
     
     # Initialize organized app list.  organized_list is passed to index.html template. 
     organized_list ={}
 
-    if option == None or option == "Category":
-        # When the page loads and drop down menue has not been used, return category-sorted.
-        sorted_list = sort_app('categories', clean_app_list)
+    # When the page loads and drop down menue has not been used, return category-sorted.
+    sorted_list = sort_app('categories', clean_app_list)
         
-        # Get correct name for each category.
-        app_list_name = {}
+    # Get correct name for each category.
+    app_list_name = {}
 
-        for category in sorted_list:
-            if (category != 'active') and (category != 'upload'):
-                cat_name = Category_names.get(category)
-                app_list_name[cat_name] = sorted_list.get(category)
+    for category in sorted_list:
+        if (category != 'active') and (category != 'upload'):
+            cat_name = Category_names.get(category)
+            app_list_name[cat_name] = sorted_list.get(category)
 
-        # Sort list by the order in category_order list.
-        for item in category_order:
-            organized_list[item] = app_list_name.get(item)
+    # Sort list by the order in category_order list.
+    for item in category_order:
+        organized_list[item] = app_list_name.get(item)
         
-    elif option == "All apps":
-        organized_list = sort_app("All apps", clean_app_list)
-
-    elif option == "Module":
-        organized_list = sort_app('module_name', clean_app_list)
-
-    elif option == "Developer":
-        organized_list = sort_app('authors', clean_app_list)
-
-    else:
-        print("this shouldn't happen!")
-    
-    return render_template('index.html', options=options, organized_list=organized_list )
+    return render_template('index.html', conf=conf, organized_list=organized_list )
 
 @app.route('/')
 def index():
     return 'index'
+
+@app.route('/applist')
+def apps():
+    return 'apps'
 
 @app.route('/apps/<app_module>/<app_name>/<tag>', methods=['GET'])
 @app.route('/apps/<app_module>/<app_name>', methods=['GET'])
@@ -221,5 +205,5 @@ def get_app(app_module, app_name, tag="release"):
         return render_template('error.html')
 
     git_url = get_git_url(app_module, app_name, app_info['git_commit_hash'])
-
-    return render_template('app_page.html', app=app_info, git_url=git_url)
+    
+    return render_template('app_page.html', conf=conf, app_id=app_id, app=app_info, git_url=git_url)

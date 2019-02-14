@@ -14,6 +14,9 @@ h1, h2, h3, h4, h5 {
 }
 div.navbar.navbar-default {
     margin-bottom: 0px;
+    position: sticky;
+    top: 0px;
+    z-index: 2;
 }
 nav {
     margin-top: 0px;
@@ -120,7 +123,7 @@ select:hover, select:focus, select:active {
 .side-nav.sticky {
     position: -webkit-sticky;
     position: sticky;
-    top: 50px;
+    top: 70px;
 }
 a.anchor-link{
     font-size: 1em;
@@ -231,29 +234,33 @@ div.kbcb-back-link {
 }
 
 .app-header {
+    display: flex;
+    justify-content: space-between;
     background-color: rgb(241, 241, 245);
     padding: 0 1em 1em 1.5em;
     color: #666;
 }
-.app-header-container {
+.app-info-container {
     padding-left: 1em;
     display: inline-table;
+    width: calc(100% - 227px);
+    padding-top: 0.5em;
 }
 .app-page-title {
     font-size: 2em; 
-    float: left;
     margin-top: 0px;
 }
 .app-page-module {
     font-size: 1.2em;
 }
 .app-header-icon {
-    display: inline-table;
     width: 93px;
     height: 93px;
+    margin-top: 15px;
 }
 .app-page-devs {
     font-size: 1em;
+    display: inline;
 }
 .app-page-version {
     display: inline;
@@ -261,6 +268,13 @@ div.kbcb-back-link {
 .app-page-subtitle {
     padding: 1.5em 2em 0em 2em;
     font-size: 1.2em;
+}
+.launch-narrative-btn {
+    height: 93px;
+    width: 93px;
+    border-radius: 15px;
+    margin-bottom: 8px;
+    margin-top: 15px;
 }
 .icon-img-l {
     width: 92.7px;
