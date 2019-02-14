@@ -107,7 +107,7 @@ select:hover, select:focus, select:active {
 .organized-by.sticky {
     position: -webkit-sticky;
     position: sticky;
-    top: 50px;
+    top: 65px;
     padding-left: 1em;
     padding-top: 1em;
     background:#ffffff9c;
@@ -173,6 +173,7 @@ a.anchor-link{
     background-color: rgb(241, 241, 245);
     color: #666;
     flex-grow: 1;
+    z-index: -2;
 }
 .app-title,.app-title:hover {
     width: 75%;
