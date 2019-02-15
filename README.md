@@ -33,6 +33,8 @@ ROOT_PREFIX: /applist
 
 GA_TRACKING_ID: Google Analytics Tracking ID
 
+AW_TRACKING_ID: Google Ads Tracking ID
+
 ## Docker Image build and run
 - export environment variables
 

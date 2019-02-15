@@ -13,6 +13,7 @@ conf = dict()
 conf['KBASE_ENDPOINT'] = os.environ.get('KBASE_ENDPOINT')
 conf['DASHBOARD_ENDPOINT'] = os.environ.get('DASHBOARD_ENDPOINT') 
 conf['GA_TRACKING_ID'] = os.environ.get('GA_TRACKING_ID')
+conf['AW_TRACKING_ID'] = os.environ.get('AW_TRACKING_ID')
 
 assert os.environ.get('DASHBOARD_ENDPOINT', '').strip(), "DASHBOARD_ENDPOINT env var is required."
 assert os.environ.get('KBASE_ENDPOINT', '').strip(), "KBASE_ENDPOINT env var is required."
