@@ -176,7 +176,6 @@ a.anchor-link{
     background-color: rgb(241, 241, 245);
     color: #666;
     flex-grow: 1;
-    z-index: -2;
 }
 .app-title,.app-title:hover {
     width: 75%;
