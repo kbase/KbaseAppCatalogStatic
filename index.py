@@ -168,11 +168,17 @@ def get_apps():
             cat_name = Category_names.get(category)
             app_list_name[cat_name] = sorted_list.get(category)
 
-    # Sort list by the order in category_order list.
+    # Sort list by the order in category_order list, 
+    # filter out the category that doesn't contain any apps,
+    # save the number of categories for UI animation
+    numCategories = 0
     for item in category_order:
-        organized_list[item] = app_list_name.get(item)
-        
-    return render_template('index.html', conf=conf, organized_list=organized_list )
+        if app_list_name.get(item):
+            organized_list[item] = app_list_name.get(item)
+            numCategories += 1 
+    
+    # JSON format of Organized list.
+    return render_template('index.html', conf=conf, organized_list=organized_list, numCategories=numCategories )
 
 @app.route('/')
 def index():

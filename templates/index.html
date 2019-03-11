@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 
 {% block content%}
-    
-    <div id="app-organized-list-container" class="c">
-        <div class="row">
+    <div class="discription row"> short discription </div>
+    <div id="app-organized-list-container" class="row">
         <div class="flex-container">
-            <div class="left-col 3 col">
+                <div class="left-col col-md-3 col-xs-6">
                 <div class="side-nav sticky">
                     <div class="scroll">
-                        <table class="w-100">
+                        <table class="table">
                             <tbody>
                             {% for item, app_list in organized_list.items() %}
                                 <tr><td> <a class="anchor-link" href="#{{ item }}">{{ item }}</a></td></tr>
@@ -17,27 +16,27 @@
                         </table>
                     </div>
                 </div>
-            </div>
+                </div>
             
-            <div class="app-list-container 9 col">
+            <div class="app-list-container col-md-9 col-xs-6">
             {% for item, app_list in organized_list.items() %}
+                {% if app_list %}
                 <div class="secret-spice" id="{{ item }}"></div> <!-- dummy div to align app-list -->
                 <div class="app-list">
                     <div class="organized-by sticky">{{ item }}</div>
-                {% if app_list %}
                 {% for app in app_list %}
-                    <a href="apps/{{ app.id }}/release">
                         <div class="app-card kbcb-hover">
-                            <div class="app-card-header" module="{{ item }}" name="{{ app.name }}" id="{{ app.id}}">
-                                {% if app.icon %}
-                                <img class="icon-img" src="{{ conf.KBASE_ENDPOINT }}/narrative_method_store/{{ app.icon.url }}" >
-                                {% else %}
-                                <i class="icon-img fas fa-question-circle fa-2x"></i>       
-                                {% endif %} 
-                                <p class="app-title"> {{ app.name }} </p>
-                            </div>
-                            <div class="module-name-tooltip">
-                                <a class="module-name" href="{{ conf.DASHBOARD_ENDPOINT }}/#catalog/modules/{{ app.module_name }}">{{ app.module_name }}</a>
+                            <a href="apps/{{ app.id }}/release">
+                                <div class="app-card-header" module="{{ item }}" name="{{ app.name }}" id="{{ app.id}}">
+                                    {% if app.icon %}
+                                    <img class="icon-img" src="{{ conf.KBASE_ENDPOINT }}/narrative_method_store/{{ app.icon.url }}" >
+                                    {% else %}
+                                    <i class="icon-img fas fa-question-circle fa-2x"></i>       
+                                    {% endif %} 
+                                    <p class="app-title"> {{ app.name }} </p>
+                                </div>
+                            </a>    
+                            <div class="snippet">
                                 {% if app.subtitle != "none" %}
                                 <p>{{ app.subtitle }}</p>
                                 {% endif %}
@@ -51,18 +50,45 @@
                             </div>
                             {% endif %}
                         </div>
-                    </a>
                 {% endfor %}
                 {% endif %}
                 </div> <!--  End of class="app-list" -->
             {% endfor %}
-            </div> <!-- End of class="app-list-container" -->
-        </div> <!-- End of class="row" -->
+        </div> <!-- End of class="app-list-container" -->
     </div> <!-- End of class="app-organized-list-container c" -->
     <script>
-        let scroll = document.querySelector(".scroll");
+        let numCategories = document.getElementById('organized_list_items');
+        let num = Number(numCategories.dataset.name);
+        var timer = null;
+        let currnetElem = 1;
+        let findHiddenEle = ()=>{
+            let elemIndex = 0;
+            for (let i = 0; i < num; i += 1) {
+                let elem = document.getElementsByClassName('organized-by')[i].getBoundingClientRect();
+                if (elem.top < 60) {
+                    elemIndex += 1;
+                }
+            }
+            elemIndex += 1;
+            if(currnetElem !== elemIndex) {
+                document.body.querySelector('.table tbody tr:nth-child('+ currnetElem +') a').removeAttribute("style")
+            }
+            document.body.querySelector('.table tbody tr:nth-child('+ elemIndex +') a').setAttribute("style", "color: #9ab04b; text-decoration: underline;")
+            currnetElem = elemIndex;
+        }
+        window.addEventListener("load", findHiddenEle());
+        window.addEventListener('scroll', function() {
+            if(timer !== null) {
+                clearTimeout(timer);        
+            }
+            timer = setTimeout(() => {
+                    findHiddenEle();
+                }, 100);
+        }, false);
+
         document.addEventListener("click", function(event) {
             scroll.scrollTop = 0;
         }, false);
+        
     </script>
 {% endblock content %}  

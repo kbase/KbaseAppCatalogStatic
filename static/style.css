@@ -4,25 +4,30 @@ body {
     line-height: 1.42857143;
     margin-top: 0px;
 }
+
 .btn {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     letter-spacing: 0;
     text-transform: none;
 }
+
 h1, h2, h3, h4, h5 {
     color: rgb(119, 119, 119);
 }
+
 div.navbar.navbar-default {
     margin-bottom: 0px;
     position: sticky;
     top: 0px;
     z-index: 2;
 }
+
 nav {
     margin-top: 0px;
     z-index: 1;
 }
-#app-catalog-header {
+
+/* #app-catalog-header {
     background-color: #e4ebad;
     height: 50px;
     width: 100vw;
@@ -30,7 +35,8 @@ nav {
     padding-right: 5em;
     margin: auto;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-}
+} */
+
 div.dropdown-container {
     float: left;
     height: 50px;
@@ -38,13 +44,18 @@ div.dropdown-container {
     font-size: 16px;
     color: #777;
 }
+
 div.dropdown-container > span.caret {
     margin-top: 24px;
     margin-left: 5px;
 }
-div.header-container:hover, div.header-container:focus, div.header-container:active {
+
+div.header-container:hover, 
+div.header-container:focus, 
+div.header-container:active {
     cursor: pointer;
 }
+
 div.header-container {
     float: right;
     margin-top: 0px;
@@ -54,6 +65,7 @@ div.header-container {
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     color: #777;
 }
+
 div.header-container > a {
     color: #777;
 }
@@ -61,6 +73,7 @@ div.header-container > a {
 .navbar-form {
     margin-top: 14px;
 }
+
 .menu-item {
     margin: 0px;
 }
@@ -88,7 +101,9 @@ select {
      padding: 0.5em;
  }
 
-select:hover, select:focus, select:active {
+select:hover, 
+select:focus, 
+select:active {
     cursor: pointer;
 }
 
@@ -107,28 +122,36 @@ select:hover, select:focus, select:active {
     padding: 1em, 0, 0, 1em;
     height: 75px;
 }
+
 .organized-by.sticky {
     position: -webkit-sticky;
     position: sticky;
-    top: 65px;
+    top: 60px;
     padding-left: 1em;
-    padding-top: 1em;
-    background:#ffffff9c;
+    padding-top: 2rem;
+    background:#ffffffe6;
 }
 
 .side-nav  {
-    font-size: 0.8em;
     color: #6b844b;
 }
+
 .side-nav.sticky {
     position: -webkit-sticky;
     position: sticky;
-    top: 70px;
+    top: 65px;
+    padding-top: 2rem;
 }
+
 a.anchor-link{
     font-size: 1em;
     color: #6b844b;
 }
+
+a.anchor-link-highlight{
+    color: #b9ba4d;
+}
+
 .icon-img {
     width: 40px;
     height: 40px;
@@ -136,18 +159,27 @@ a.anchor-link{
     margin-top: 0.1em;
     margin-bottom: 0.35em;
 }
-
+.discription {
+    text-align: center;
+    color: #666;
+    font-size: 1.5em;
+    text-decoration: underline;
+}
 #app-organized-list-container {
     width: 90vw;
-    max-width: 1024px; 
+    max-width: 1024px;
     font-family: inherit;
+    margin: auto;
 }
 .flex-container {
     display: flex;
 }
 .left-col{ 
     order: 1;
-    min-width: 112px;
+    min-width: 18rem;
+}
+tr:first-child {
+    border-top-style: hidden;
 }
 
 .scroll {
@@ -156,6 +188,7 @@ a.anchor-link{
 }
 .app-list-container {
     padding: 0px;
+    margin: 0px 10px;
     order: 2;
 }
 .secret-spice {
@@ -163,8 +196,9 @@ a.anchor-link{
     top: -100px;
 }
 .app-list {
+    margin-top: 0px;
     margin-bottom: 5vh;
-    padding: 10px;
+    padding: 0px 10px;;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -176,9 +210,9 @@ a.anchor-link{
     background-color: rgb(241, 241, 245);
     color: #666;
     flex-grow: 1;
-    z-index: -2;
 }
-.app-title,.app-title:hover {
+.app-title,
+.app-title:hover {
     width: 75%;
     margin-left: 0.6em;
     color: #666;
@@ -186,22 +220,25 @@ a.anchor-link{
     text-decoration: none;
     float: left;
 }
-.module-name:hover, .dev-link:hover {
+.module-name:hover, 
+.dev-link:hover {
     text-decoration: underline;
 }
-.module-name-tooltip{
+
+.snippet{
+    display: inline-block;
     clear: both;
-    font-size: 0.8em;
+    font-size: 1em;
 }
-.devs {
-    font-size: 0.7em;
-}
-.kbase-main-nav .navbar-btns {
+
+.kbase-main-nav 
+.navbar-btns {
     margin-top: 6px;
     margin-left: 20px;
     display: inline-block;
     vertical-align: middle;
 }
+
 .kbcb-hover {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.2s ease-in-out;
@@ -214,10 +251,12 @@ a.anchor-link{
 .kbase-main-nav {
     margin: 0px;
 }
+
 .navbar-nav {
     margin-top: 8px;
     margin-left: 40px;
 }
+
 /* app page style */
 .content{
     display: flex;
@@ -229,6 +268,7 @@ a.anchor-link{
     font-size: 14px;
     color: #333333;
 }
+
 div.kbcb-back-link {
     padding: 0.4em;
 }
@@ -240,35 +280,43 @@ div.kbcb-back-link {
     padding: 0 1em 1em 1.5em;
     color: #666;
 }
+
 .app-info-container {
     padding-left: 1em;
     display: inline-table;
     width: calc(100% - 227px);
     padding-top: 0.5em;
 }
+
 .app-page-title {
     font-size: 2em; 
     margin-top: 0px;
 }
+
 .app-page-module {
     font-size: 1.2em;
 }
+
 .app-header-icon {
     width: 93px;
     height: 93px;
     margin-top: 15px;
 }
+
 .app-page-devs {
     font-size: 1em;
     display: inline;
 }
+
 .app-page-version {
     display: inline;
 }
+
 .app-page-subtitle {
     padding: 1.5em 2em 0em 2em;
     font-size: 1.2em;
 }
+
 .launch-narrative-btn {
     height: 93px;
     width: 93px;
@@ -276,14 +324,17 @@ div.kbcb-back-link {
     margin-bottom: 8px;
     margin-top: 15px;
 }
+
 .icon-img-l {
     width: 92.7px;
     height: 92.7px;
 }
+
 .app-spec {
     border: 1px solid #eee;
     padding: 0.5em;
 }
+
 hr {
     margin-top: 20px;
     margin-bottom: 20px;
