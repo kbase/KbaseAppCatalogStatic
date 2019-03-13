@@ -164,6 +164,7 @@ a.anchor-link-highlight{
     color: #666;
     font-size: 1.5em;
     text-decoration: underline;
+    padding: 1em;
 }
 #app-organized-list-container {
     width: 90vw;
