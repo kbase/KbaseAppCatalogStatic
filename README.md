@@ -39,10 +39,14 @@ AW_TRACKING_ID: Google Ads Tracking ID
 - export environment variables
 
 ```
-export KBASE_ENDPOINT= https://kbase.us/services
+export KBASE_ENDPOINT=https://kbase.us/services
 export DASHBOARD_ENDPOINT=https://narrative.kbase.us
 export ROOT_PREFIX=/applist
+export GA_TRACKING_ID=Your_GA_Tracking_ID
+export AW_TRACKING_ID=Your_AW_Tracking_ID
 ```
+** make sure there is no space around '='
+
 - build docker image 
 ```
 docker build . -t kbase-catalog kbase-catalog
