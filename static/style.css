@@ -27,16 +27,6 @@ nav {
     z-index: 1;
 }
 
-/* #app-catalog-header {
-    background-color: #e4ebad;
-    height: 50px;
-    width: 100vw;
-    padding-left: 10em;
-    padding-right: 5em;
-    margin: auto;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-} */
-
 div.dropdown-container {
     float: left;
     height: 50px;
