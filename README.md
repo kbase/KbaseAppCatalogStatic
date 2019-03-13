@@ -49,9 +49,9 @@ export AW_TRACKING_ID=Your_AW_Tracking_ID
 
 - build docker image 
 ```
-docker build . -t kbase-catalog kbase-catalog
+docker build . -t kbase-catalog
 ```
 - run docker image using port 5000
 ```
-docker run -e KBASE_ENDPOINT -e DASHBOARD_ENDPOINT -e ROOT_PREFIX -p 5000:5000 kbase-catalog
+docker run -e KBASE_ENDPOINT -e DASHBOARD_ENDPOINT -e ROOT_PREFIX -e GA_TRACKING_ID -e AW_TRACKING_ID -p 5000:5000 kbase-catalog
 ```
