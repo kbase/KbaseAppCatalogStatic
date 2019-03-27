@@ -124,6 +124,8 @@ select:active {
 
 .free-apps {
     padding: 8px;
+    text-decoration: underline;
+    font-size: 24px;
 }
 
 .side-nav.sticky {
