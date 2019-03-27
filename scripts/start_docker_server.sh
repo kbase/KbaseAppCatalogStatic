@@ -1,3 +1,6 @@
+#!/bin/sh
+set -e
+
 # Build docker image 'kbase-catalog'
 docker build . -t kbase-catalog
 
