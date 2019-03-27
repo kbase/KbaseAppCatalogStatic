@@ -11,47 +11,9 @@ Clone the repo on your local machine and install dependency.
 ```
 $ pip install -r requirements.txt
 ```
-Set the application to work with by exporting the FLASK_APP environment variable:
-```
-$ export FLASK_APP=index.py
-```
-Run the application
-```
-$ flask run
-``` 
-or 
-```
-$ python -m flask run
-```
-
-## Environment Variables
-KBASE_ENDPOINT: https://kbase.us/services
-
-DASHBOARD_ENDPOINT: https://narrative.kbase.us
-
-ROOT_PREFIX: /applist
-
-GA_TRACKING_ID: Google Analytics Tracking ID
-
-AW_TRACKING_ID: Google Ads Tracking ID
-
 ## Docker Image build and run
-- export environment variables
 
+Go to the project root folder and run
 ```
-export KBASE_ENDPOINT=https://kbase.us/services
-export DASHBOARD_ENDPOINT=https://narrative.kbase.us
-export ROOT_PREFIX=/applist
-export GA_TRACKING_ID=Your_GA_Tracking_ID
-export AW_TRACKING_ID=Your_AW_Tracking_ID
-```
-** make sure there is no space around '='
-
-- build docker image 
-```
-docker build . -t kbase-catalog
-```
-- run docker image using port 5000
-```
-docker run -e KBASE_ENDPOINT -e DASHBOARD_ENDPOINT -e ROOT_PREFIX -e GA_TRACKING_ID -e AW_TRACKING_ID -p 5000:5000 kbase-catalog
+$ sh scripts/start_docker_server.sh
 ```

@@ -180,14 +180,6 @@ def get_apps():
     # JSON format of Organized list.
     return render_template('index.html', conf=conf, organized_list=organized_list, numCategories=numCategories )
 
-@app.route('/')
-def index():
-    return 'index'
-
-@app.route('/applist')
-def apps():
-    return 'apps'
-
 @app.route('/apps/<app_module>/<app_name>/<tag>', methods=['GET'])
 @app.route('/apps/<app_module>/<app_name>', methods=['GET'])
 def get_app(app_module, app_name, tag="release"):

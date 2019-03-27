@@ -78,18 +78,18 @@ select {
     color: #777;
     line-height: 22px;
     background: none;
- }
+}
 
- table {
+table {
     table-layout: fixed;
     overflow-wrap: break-word;
     overflow-y: auto;
     max-height: 100vh;
- }
+}
  
- td {
-     padding: 0.5em;
- }
+td {
+    padding: 0.5em;
+}
 
 select:hover, 
 select:focus, 
@@ -122,8 +122,8 @@ select:active {
     background:#ffffffe6;
 }
 
-.side-nav  {
-    color: #6b844b;
+.free-apps {
+    padding: 8px;
 }
 
 .side-nav.sticky {
@@ -175,7 +175,7 @@ tr:first-child {
 
 .scroll {
     max-height: 75vh;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 .app-list-container {
     padding: 0px;
@@ -253,7 +253,8 @@ tr:first-child {
     display: flex;
     flex-direction: column;
     overflow: auto;
-    width: 90vw;
+    max-width: 1124px;
+    padding: 0px 50px;
     margin: auto;
     font-family: 'Oxygen', Arial, sans-serif;
     font-size: 14px;
