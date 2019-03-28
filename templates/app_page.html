@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 {% block content_meta %}<meta name="Kbase App {{ app.name }}" content="{{ app.subtitle }}">{% endblock %}
 {% block title %}<title>{{ app.name }} | KBase App </title>{% endblock %}
-{% block style %}<link rel="stylesheet" href="{{url_for('apps')}}{{ url_for('static', filename='style.css') }}">{% endblock %}
+{% block style %}<link rel="stylesheet" href="/applist/static/style.css">{% endblock %}
 
 {% block content%}
     <div class="content">
-        <div class="kbcb-back-link"><a href="{{url_for('index')}}"><i class="fa fa-chevron-left"></i> back to the Catalog</a></div>
-        <!-- {{ app }} -->
+        <div class="kbcb-back-link"><a href="{{url_for('get_apps')}}"><i class="fa fa-chevron-left"></i> Back to the catalog</a></div>
         <div class="app-header">
             <div class="app-header-icon">
                 {% if app.icon %}
