@@ -10,4 +10,4 @@ gunicorn \
     --workers $workers \
     --bind :5000 \
     ${DEVELOPMENT:+"--reload"} \
-    index:app
+    src.server:app

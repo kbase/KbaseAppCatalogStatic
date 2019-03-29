@@ -40,8 +40,8 @@ div.dropdown-container > span.caret {
     margin-left: 5px;
 }
 
-div.header-container:hover, 
-div.header-container:focus, 
+div.header-container:hover,
+div.header-container:focus,
 div.header-container:active {
     cursor: pointer;
 }
@@ -69,7 +69,7 @@ div.header-container > a {
 }
 
 select {
-    -webkit-appearance: none; 
+    -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     border-radius: none;
@@ -86,13 +86,13 @@ table {
     overflow-y: auto;
     max-height: 100vh;
 }
- 
+
 td {
     padding: 0.5em;
 }
 
-select:hover, 
-select:focus, 
+select:hover,
+select:focus,
 select:active {
     cursor: pointer;
 }
@@ -167,7 +167,7 @@ a.anchor-link-highlight{
 .flex-container {
     display: flex;
 }
-.left-col{ 
+.left-col{
     order: 1;
     min-width: 18rem;
 }
@@ -213,7 +213,7 @@ tr:first-child {
     text-decoration: none;
     float: left;
 }
-.module-name:hover, 
+.module-name:hover,
 .dev-link:hover {
     text-decoration: underline;
 }
@@ -224,7 +224,7 @@ tr:first-child {
     font-size: 1em;
 }
 
-.kbase-main-nav 
+.kbase-main-nav
 .navbar-btns {
     margin-top: 6px;
     margin-left: 20px;
@@ -283,7 +283,7 @@ div.kbcb-back-link {
 }
 
 .app-page-title {
-    font-size: 2em; 
+    font-size: 2em;
     margin-top: 0px;
 }
 
