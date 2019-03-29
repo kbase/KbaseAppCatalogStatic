@@ -1,96 +1,64 @@
 {% extends "base.html" %}
 
 {% block content%}
-    <div id="app-organized-list-container" class="row">
-        <div class="flex-container">
-                <div class="left-col col-md-3 col-xs-6">
-                <div class="side-nav sticky">
-                    <div class="scroll">
-                        <table class="table">
-                            <tbody>
-                            {% for item, app_list in organized_list.items() %}
-                                <tr><td> <a class="anchor-link" href="#{{ item }}">{{ item }}</a></td></tr>
-                            {% endfor %}
-                            </tbody>
-                        </table>
-                        <div class="free-apps">
-                           <a href="https://narrative.kbase.us/#signup">Use these apps with a free KBase account.</a>
-                        </div>
-                    </div>
-                </div>
-                </div>
-            
-            <div class="app-list-container col-md-9 col-xs-6">
-            {% for item, app_list in organized_list.items() %}
-                {% if app_list %}
-                <div class="secret-spice" id="{{ item }}"></div> <!-- dummy div to align app-list -->
-                <div class="app-list">
-                    <div class="organized-by sticky">{{ item }}</div>
-                {% for app in app_list %}
-                        <div class="app-card kbcb-hover">
-                            <a href="apps/{{ app.id }}/release">
-                                <div class="app-card-header" module="{{ item }}" name="{{ app.name }}" id="{{ app.id}}">
-                                    {% if app.icon %}
-                                    <img class="icon-img" src="{{ conf.KBASE_ENDPOINT }}/narrative_method_store/{{ app.icon.url }}" >
-                                    {% else %}
-                                    <i class="icon-img fas fa-question-circle fa-2x"></i>       
-                                    {% endif %} 
-                                    <p class="app-title"> {{ app.name }} </p>
-                                </div>
-                            </a>    
-                            <div class="snippet">
-                                {% if app.subtitle != "none" %}
-                                <p>{{ app.subtitle }}</p>
-                                {% endif %}
-                            </div>
-                            {% if  app.authors|length > 0 %}
-                            <div class="devs">
-                                By: 
-                                {% for developr in app.authors %}
-                                    <a class="dev-link" href = "{{ conf.DASHBOARD_ENDPOINT }}/#people/{{developr}}">{{ developr }}</a>{{ "," if not loop.last }}
-                                {% endfor %}
-                            </div>
-                            {% endif %}
-                        </div>
-                {% endfor %}
-                {% endif %}
-                </div> <!--  End of class="app-list" -->
-            {% endfor %}
-        </div> <!-- End of class="app-list-container" -->
-    </div> <!-- End of class="app-organized-list-container c" -->
-    <script>
-        let numCategories = document.getElementById('organized_list_items');
-        let num = Number(numCategories.dataset.name);
-        var timer = null;
-        let currnetElem = 1;
-        let findHiddenEle = ()=>{
-            let elemIndex = 0;
-            for (let i = 0; i < num; i += 1) {
-                let elem = document.getElementsByClassName('organized-by')[i].getBoundingClientRect();
-                if (elem.top < 60) {
-                    elemIndex += 1;
-                }
-            }
-            elemIndex += 1;
-            if(currnetElem !== elemIndex) {
-                document.body.querySelector('.table tbody tr:nth-child('+ currnetElem +') a').removeAttribute("style")
-            }
-            document.body.querySelector('.table tbody tr:nth-child('+ elemIndex +') a').setAttribute("style", "color: #9ab04b; text-decoration: underline;")
-            currnetElem = elemIndex;
-        }
-        window.addEventListener("load", findHiddenEle());
-        window.addEventListener('scroll', function() {
-            if(timer !== null) {
-                clearTimeout(timer);        
-            }
-            timer = setTimeout(() => {
-                    findHiddenEle();
-                }, 100);
-        }, false);
+<div id="app-organized-list-container" class="row">
+  <div class="flex-container">
+    <div class="left-col col-md-3 col-xs-6">
+      <div class="side-nav sticky">
+        <div class="scroll">
+          <table class="table">
+            <tbody>
+              {% for item, app_list in organized_list.items() %}
+              <tr><td> <a class="anchor-link" href="#{{ item }}">{{ item }}</a></td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="free-apps">
+            <a href="https://narrative.kbase.us/#signup">Use these apps with a free KBase account</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        document.addEventListener("click", function(event) {
-            scroll.scrollTop = 0;
-        }, false);
-        
-    </script>
-{% endblock content %}  
+    <div class="app-list-container col-md-9 col-xs-6">
+      {% for item, app_list in organized_list.items() %}
+      {% if app_list %}
+        <div class="secret-spice" id="{{ item }}"></div> <!-- dummy div to align app-list -->
+        <div class="app-list">
+          <div class="organized-by sticky">{{ item }}</div>
+          {% for app in app_list %}
+            <div class="app-card kbcb-hover">
+              <a href="apps/{{ app.id }}/release">
+                <div class="app-card-header" module="{{ item }}" name="{{ app.name }}" id="{{ app.id}}">
+                  {% if app.icon %}
+                    <img class="icon-img" src="{{ conf.KBASE_ENDPOINT }}/narrative_method_store/{{ app.icon.url }}" >
+                  {% else %}
+                    <i class="icon-img fas fa-question-circle fa-2x"></i>
+                  {% endif %}
+                  <p class="app-title"> {{ app.name }} </p>
+                </div>
+              </a>
+              <div class="snippet">
+                {% if app.subtitle != "none" %}
+                <p>{{ app.subtitle }}</p>
+                {% endif %}
+              </div>
+              {% if  app.authors|length > 0 %}
+                <div class="devs">
+                  By:
+                  {% for developer in app.authors %}
+                    <a class="dev-link" href="{{ conf.DASHBOARD_ENDPOINT }}/#people/{{developer}}">{{ developer }}</a>{{ "," if not loop.last }}
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div> <!--  End of class="app-list" -->
+      {% endif %}
+      {% endfor %}
+    </div> <!-- End of class="app-list-container" -->
+  </div> <!-- End of flex-container -->
+
+  <script src='/applist/static/nav-highlight.js'></script>
+</div> <!-- End of class="app-organized-list-container" -->
+{% endblock content %}

@@ -124,8 +124,8 @@ select:active {
 
 .free-apps {
     padding: 8px;
-    text-decoration: underline;
-    font-size: 24px;
+    font-size: 2rem;
+    font-weight: bold;
 }
 
 .side-nav.sticky {
@@ -264,7 +264,7 @@ tr:first-child {
 }
 
 div.kbcb-back-link {
-    padding: 0.4em;
+    padding: 1rem 0rem;
 }
 
 .app-header {
@@ -307,7 +307,7 @@ div.kbcb-back-link {
 }
 
 .app-page-subtitle {
-    padding: 1.5em 2em 0em 2em;
+    padding: 2rem 1.5rem 1rem 1.5rem;
     font-size: 1.2em;
 }
 
