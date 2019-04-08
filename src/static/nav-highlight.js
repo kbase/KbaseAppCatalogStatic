@@ -28,7 +28,7 @@ const findHiddenElem = () => {
   currentElem = elemIndex;
 };
 
-// Run the callback `fn` at most every `ms`
+// Run the callback `callback` at most every `delayMs` milliseconds
 const debounce = (delayMs, callback) => {
   let timeout;
   return function() {
