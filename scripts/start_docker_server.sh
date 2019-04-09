@@ -8,8 +8,8 @@ docker build . -t kbase-catalog
 export ROOT_PREFIX=/applist
 export KBASE_ENDPOINT=https://kbase.us/services
 export DASHBOARD_ENDPOINT=https://narrative.kbase.us
-export GA_TRACKING_ID=UA-38443357-1
-export AW_TRACKING_ID=AW-845971082
+export GA_TRACKING_ID=UA-137652528-1
+export AW_TRACKING_ID=AW-753507180
 export DEVELOPMENT=1
 
 # Create/start a new docker container and run it on port 5000. 
