@@ -11,8 +11,8 @@
                 {% if app.icon %}
                 <img class="icon-img-l" src="{{ conf.KBASE_ENDPOINT }}/narrative_method_store/{{ app.icon.url }}" >
                 {% else %}
-                <i class="icon-img fas fa-question-circle fa-5x"></i>       
-                {% endif %} 
+                <i class="icon-img fas fa-question-circle fa-5x"></i>
+                {% endif %}
             </div>
             <div class="app-info-container">
                 <div class="app-page-title"> {{ app.name }} </div>
@@ -22,7 +22,7 @@
                 </div>
                 {% if  app.authors|length > 0 %}
                 <div class="app-page-devs">
-                    By: 
+                    By:
                     {% for developr in app.authors %}
                     <a class="dev-link" href = "{{ conf.DASHBOARD_ENDPOINT }}/#people/{{developr}}">{{ developr }}</a>{{ "," if not loop.last }}
                     {% endfor %}
@@ -31,7 +31,7 @@
             </div> <!-- end of app-info-container -->
             <a class="btn launch-narrative-btn" type="button" target="_blank" href="{{ conf.DASHBOARD_ENDPOINT }}/?app={{app_id}}#/narrativemanager/new"><i class="fas fa-rocket" style="font-size: 4em;"></i><p>Launch</p></a>
         </div> <!-- end of app-header-->
-        <div calss="app-page-subtitle">
+        <div class="app-page-subtitle">
             {% if app.subtitle != "none" %}
             <div class=app-subtitle>
                 <p>{{ app.subtitle }}</p>
@@ -55,7 +55,7 @@
             <p>Related Publications</P>
             <ul>
             {% for publication in app.publications %}
-            <li>{{ publication.display_text }}, <a href="{{ publication.link }}">{{ publication.link }}</a></li> 
+            <li>{{ publication.display_text }}, <a href="{{ publication.link }}">{{ publication.link }}</a></li>
             {% endfor %}
             <ul>
         </div> <!-- end of publication -->
