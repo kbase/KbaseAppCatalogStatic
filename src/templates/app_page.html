@@ -1,69 +1,77 @@
 {% extends "base.html" %}
-{% block content_meta %}<meta name="Kbase App {{ app.name }}" content="{{ app.subtitle }}">{% endblock %}
+{% block content_meta %}
+<meta name="Kbase App {{ app.name }}" content="{{ app.subtitle }}">{% endblock %}
 {% block title %}<title>{{ app.name }} | KBase App </title>{% endblock %}
-{% block style %}<link rel="stylesheet" href="/static/style.css">{% endblock %}
+{% block style %}
+<link rel="stylesheet" href="{{ conf.ROOT_PREFIX }}/static/style.css">{% endblock %}
 
 {% block content%}
-    <div class="content">
-        <div class="kbcb-back-link"><a href="{{url_for('get_apps')}}"><i class="fa fa-chevron-left"></i> Back to the catalog</a></div>
-        <div class="app-header">
-            <div class="app-header-icon">
-                {% if app.icon %}
-                <img class="icon-img-l" src="{{ conf.KBASE_ENDPOINT }}/narrative_method_store/{{ app.icon.url }}" >
-                {% else %}
-                <i class="icon-img fas fa-question-circle fa-5x"></i>
-                {% endif %}
-            </div>
-            <div class="app-info-container">
-                <div class="app-page-title"> {{ app.name }} </div>
-                <div class="app-page-module">
-                    <a href="{{ conf.DASHBOARD_ENDPOINT }}/#catalog/modules/{{ app.module_name }}">{{ app.module_name }}</a>
-                    <p class="app-page-version"> v.{{ app.ver }} </p>
-                </div>
-                {% if  app.authors|length > 0 %}
-                <div class="app-page-devs">
-                    By:
-                    {% for developr in app.authors %}
-                    <a class="dev-link" href = "{{ conf.DASHBOARD_ENDPOINT }}/#people/{{developr}}">{{ developr }}</a>{{ "," if not loop.last }}
-                    {% endfor %}
-                </div>
-                {% endif %}
-            </div> <!-- end of app-info-container -->
-            <a class="btn launch-narrative-btn" type="button" target="_blank" href="{{ conf.DASHBOARD_ENDPOINT }}/?app={{app_id}}#/narrativemanager/new"><i class="fas fa-rocket" style="font-size: 4em;"></i><p>Launch</p></a>
-        </div> <!-- end of app-header-->
-        <div class="app-page-subtitle">
-            {% if app.subtitle != "none" %}
-            <div class=app-subtitle>
-                <p>{{ app.subtitle }}</p>
-            </div>
+<div class="content">
+    <div class="kbcb-back-link"><a href="{{url_for('get_apps')}}"><i class="fa fa-chevron-left"></i> Back to the
+            catalog</a></div>
+    <div class="app-header">
+        <div class="app-header-icon">
+            {% if app.icon %}
+            <img class="icon-img-l" src="{{ conf.KBASE_ENDPOINT }}/narrative_method_store/{{ app.icon.url }}">
+            {% else %}
+            <i class="icon-img fas fa-question-circle fa-5x"></i>
             {% endif %}
         </div>
-        {% if app.screenshots | length > 0 %}
-        <div>
-            {% for img_url in app.screenshots %}
-            <a><img src="{{ conf.KBASE_ENDPOINT }}/narrative_method_store/{{ img_url.url }}" width="300"></a>
-            {% endfor %}
+        <div class="app-info-container">
+            <div class="app-page-title"> {{ app.name }} </div>
+            <div class="app-page-module">
+                <a href="{{ conf.DASHBOARD_ENDPOINT }}/#catalog/modules/{{ app.module_name }}">{{ app.module_name }}</a>
+                <p class="app-page-version"> v.{{ app.ver }} </p>
+            </div>
+            {% if  app.authors|length > 0 %}
+            <div class="app-page-devs">
+                By:
+                {% for developr in app.authors %}
+                <a class="dev-link"
+                    href="{{ conf.DASHBOARD_ENDPOINT }}/#people/{{developr}}">{{ developr }}</a>{{ "," if not loop.last }}
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div> <!-- end of app-info-container -->
+        <a class="btn launch-narrative-btn" type="button" target="_blank"
+            href="{{ conf.DASHBOARD_ENDPOINT }}/?app={{app_id}}#/narrativemanager/new"><i class="fas fa-rocket"
+                style="font-size: 4em;"></i>
+            <p>Launch</p>
+        </a>
+    </div> <!-- end of app-header-->
+    <div class="app-page-subtitle">
+        {% if app.subtitle != "none" %}
+        <div class=app-subtitle>
+            <p>{{ app.subtitle }}</p>
         </div>
         {% endif %}
-        {% if app.description != "none" %}
-        <div class="app-description">
+    </div>
+    {% if app.screenshots | length > 0 %}
+    <div>
+        {% for img_url in app.screenshots %}
+        <a><img src="{{ conf.KBASE_ENDPOINT }}/narrative_method_store/{{ img_url.url }}" width="300"></a>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% if app.description != "none" %}
+    <div class="app-description">
         {{ app.description | safe }}
-        </div>
-        {% endif %}
-        {% if app.publications | length > 0 %}
-        <div class="publication">
-            <p>Related Publications</P>
-            <ul>
+    </div>
+    {% endif %}
+    {% if app.publications | length > 0 %}
+    <div class="publication">
+        <p>Related Publications</P>
+        <ul>
             {% for publication in app.publications %}
             <li>{{ publication.display_text }}, <a href="{{ publication.link }}">{{ publication.link }}</a></li>
             {% endfor %}
             <ul>
-        </div> <!-- end of publication -->
-        {% endif %}
-        <hr>
-        <div class="app-spec">
-            <p style="font-weight: bold; display: inline;">App Specification: </p><a href="{{ git_url }}">{{ git_url }}</a>
-            <p><b>Module Commit: </b> {{ app.git_commit_hash }}</p>
-        </div>
-    </div> <!-- end of content -->
+    </div> <!-- end of publication -->
+    {% endif %}
+    <hr>
+    <div class="app-spec">
+        <p style="font-weight: bold; display: inline;">App Specification: </p><a href="{{ git_url }}">{{ git_url }}</a>
+        <p><b>Module Commit: </b> {{ app.git_commit_hash }}</p>
+    </div>
+</div> <!-- end of content -->
 {% endblock content %}
