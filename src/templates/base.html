@@ -1,63 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <!-- Global Site Tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id={{ conf.GA_TRACKING_ID }}"></script>
-        <script>
-      window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '{{ conf.GA_TRACKING_ID }}');
-gtag('config', '{{ conf.AW_TRACKING_ID }}'); //tracking for Googld Ads
+
+<head>
+    <!-- Global Site Tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ conf.GA_TRACKING_ID }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', '{{ conf.GA_TRACKING_ID }}');
+        gtag('config', '{{ conf.AW_TRACKING_ID }}'); //tracking for Googld Ads
     </script><!-- End of Global Site Tag (gtag.js) - Google Analytics -->
-        <meta charset="UTF-8">
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-        <meta content="ie=edge" http-equiv="X-UA-Compatible">
-        <meta content="0.0.2" name="version">
-        <meta content="2019 Jan 08" name="revised">
-        {% block content_meta %}<meta content="KBase apps are analysis tools that you can use in KBase. Apps interoperate seamlessly to enable a range of scientific workflows (see figure below). Some of the apps were written by KBase scientists and developers; others are third-party tools that were integrated into KBase with our Software Developer Kit (SDK). The number of apps available in KBase will increase rapidly as members of the community use our SDK to integrate their analysis tools into the KBase platform.
-                                                                                                                                                                                                                                                                                                    The KBase App Catalog lists all of the currently available apps." name="Kbase App Catalog">
-        {% endblock %}
-        {% block title %}
-            <title>KBase App Catalog</title>
-        {% endblock %}
-        <script src="/static/wp/js/jquery.js" type="text/javascript"></script>
-        <script src="/static/wp/js/jquery-migrate.min.js" type="text/javascript"></script>
-        <script src="/static/wp/js/kbaseUtils.js" type="text/javascript"></script>
-        <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" rel="stylesheet">
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet"/>
-        <link href="/static/wp/css/grid.css?ver=4.7.3" id="grid-css" media="all" rel="stylesheet" type="text/css">
-        <link href="/static/wp/bootstrap/css/bootstrap.min.css" id="bootstrap-css" media="all" rel="stylesheet" type="text/css">
-        <link href="/static/wp/bootstrap/css/bootstrap-theme.css" id="bootstrap-theme-css" media="all" rel="stylesheet" type="text/css">
-        {% block style %}<link href="/static/style.css" rel="stylesheet">
-        {% endblock %}
-        <meta id="organized_list_items" data-name="{{ numCategories }}" data-other="{{other}}">
-        <link href="/static/wp/images/favicon.ico" rel="shortcut icon"/>
-    </head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <meta content="0.0.2" name="version">
+    <meta content="2019 Jan 08" name="revised">
+    {% block content_meta %}
+    <meta
+        content="KBase apps are analysis tools that you can use in KBase. Apps interoperate seamlessly to enable a range of scientific workflows (see figure below). Some of the apps were written by KBase scientists and developers; others are third-party tools that were integrated into KBase with our Software Developer Kit (SDK). The number of apps available in KBase will increase rapidly as members of the community use our SDK to integrate their analysis tools into the KBase platform.
+                                                                                                                                                                                                                                                                                                                                        The KBase App Catalog lists all of the currently available apps."
+        name="Kbase App Catalog">
+    {% endblock %}
+    {% block title %}
+    <title>KBase App Catalog</title>
+    {% endblock %}
+    <script src="{{ conf.ROOT_PREFIX }}/static/wp/js/jquery.js" type="text/javascript"></script>
+    <script src="{{ conf.ROOT_PREFIX }}/static/wp/js/jquery-migrate.min.js" type="text/javascript"></script>
+    <script src="{{ conf.ROOT_PREFIX }}/static/wp/js/kbaseUtils.js" type="text/javascript"></script>
+    <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css"
+        integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" rel="stylesheet">
+    <link href="{{ conf.ROOT_PREFIX }}/static/wp/css/grid.css?ver=4.7.3" id="grid-css" media="all" rel="stylesheet"
+        type="text/css">
+    <link href="{{ conf.ROOT_PREFIX }}/static/wp/bootstrap/css/bootstrap.min.css" id="bootstrap-css" media="all"
+        rel="stylesheet" type="text/css">
+    <link href="{{ conf.ROOT_PREFIX }}/static/wp/bootstrap/css/bootstrap-theme.css" id="bootstrap-theme-css" media="all"
+        rel="stylesheet" type="text/css">
+    {% block style %}
+    <link href="{{ conf.ROOT_PREFIX }}/static/style.css" rel="stylesheet">
+    {% endblock %}
+    <meta id="organized_list_items" data-name="{{ numCategories }}" data-other="{{other}}">
+    <link href="{{ conf.ROOT_PREFIX }}/static/wp/images/favicon.ico" rel="shortcut icon" />
+</head>
 
-    <body>
-        <div class="Header">
-            <div class="Header-logo">
-                <a href="https://www.kbase.us">
-                    <img alt="KBase" src="/static/wp/images/kbase-logo-web.png">
-                </a>
-            </div>
-
-            <div class="Header-title">
-                App Catalog
-            </div>
-
-            <div class="Header-buttons">
-                <a class="btn btn-primary Header-buttons-button" href="https://docs.kbase.us/getting-started/sign-up" target="_blank">Sign Up</a>
-                <a class="btn btn-primary Header-buttons-button" href="https://narrative.kbase.us" target="_blank">Sign In</a>
-            </div>
+<body>
+    <div class="Header">
+        <div class="Header-logo">
+            <a href="https://www.kbase.us">
+                <img alt="KBase" src="{{ conf.ROOT_PREFIX }}/static/wp/images/kbase-logo-web.png">
+            </a>
         </div>
-        <!-- end of navbar navbar-default -->
 
-        {% block content %}{% endblock %}
+        <div class="Header-title">
+            App Catalog
+        </div>
 
-        <script src="/static/wp/bootstrap/js/bootstrap.min.js?ver=3.2.0" type="text/javascript"></script>
-        <script src="/static/wp/js/bs-extra.js" type="text/javascript"></script>
-    </body>
+        <div class="Header-buttons">
+            <a class="btn btn-primary Header-buttons-button" href="https://docs.kbase.us/getting-started/sign-up"
+                target="_blank">Sign Up</a>
+            <a class="btn btn-primary Header-buttons-button" href="https://narrative.kbase.us" target="_blank">Sign
+                In</a>
+        </div>
+    </div>
+    <!-- end of navbar navbar-default -->
+
+    {% block content %}{% endblock %}
+
+    <script src="{{ conf.ROOT_PREFIX }}/static/wp/bootstrap/js/bootstrap.min.js?ver=3.2.0"
+        type="text/javascript"></script>
+    <script src="{{ conf.ROOT_PREFIX }}/static/wp/js/bs-extra.js" type="text/javascript"></script>
+</body>
 
 </html>
