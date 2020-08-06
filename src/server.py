@@ -3,7 +3,7 @@ import os
 import requests
 import json
 from collections import defaultdict
-from werkzeug.wsgi import DispatcherMiddleware
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 app = Flask(__name__)
 
